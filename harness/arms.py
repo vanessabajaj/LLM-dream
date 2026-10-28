@@ -207,7 +207,7 @@ _corpus = None
 def corpus():
     global _corpus
     if _corpus is None:
-        txt = (ROOT / "data" / "corpus" / "moby_dick.txt").read_text(errors="ignore")
+        txt = (ROOT / "data" / "corpus" / "moby_dick.txt").read_text(errors="ignore", encoding="utf-8")
         start = txt.find("CHAPTER 1. Loomings.")
         end = txt.rfind("*** END OF THE PROJECT GUTENBERG EBOOK")
         body = txt[start:end if end > 0 else None]

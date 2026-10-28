@@ -25,12 +25,12 @@ def main():
     labels_path = out / "labels.jsonl"
     done = {}
     if labels_path.exists():
-        for line in labels_path.read_text().splitlines():
+        for line in labels_path.read_text(encoding="utf-8").splitlines():
             d = json.loads(line); done[d["key"]] = d
     items = []
     for f in sorted(glob.glob(str(ROOT / "results" / "runs" / "*" / "state.json"))):
         run = pathlib.Path(f).parent.name
-        for a in json.load(open(f))["answers"]:
+        for a in json.load(open(f, encoding="utf-8"))["answers"]:
             items.append((run, a))
     todo = [it for it in items if key(*it) not in done][: args.limit]
     print(f"{len(items)} answers, {len(done)} already graded, grading {len(todo)} with {args.model}", flush=True)
@@ -43,7 +43,7 @@ def main():
         text, _ = api.openai_chat(args.model, prompt, tag=f"regrade_{args.model}/{key(run, a)}", max_completion_tokens=2000)
         return {"key": key(run, a), "label": "yes" in text.lower(), "raw": text[:60]}
 
-    with open(labels_path, "a") as fh, ThreadPoolExecutor(args.threads) as ex:
+    with open(labels_path, "a", encoding="utf-8") as fh, ThreadPoolExecutor(args.threads) as ex:
         for i, d in enumerate(ex.map(grade, todo), 1):
             fh.write(json.dumps(d) + "\n"); fh.flush(); done[d["key"]] = d
             if i % 100 == 0:
@@ -55,7 +55,7 @@ def summarize(items, done, model, out):
     g4 = {}
     p4 = ROOT / "results" / "regrade_gpt4o" / "labels.jsonl"
     if p4.exists():
-        for line in p4.read_text().splitlines():
+        for line in p4.read_text(encoding="utf-8").splitlines():
             d = json.loads(line); g4[d["key"]] = d["gpt4o"]
     rows = [(run, a, done[key(run, a)]["label"], g4.get(key(run, a))) for run, a in items if key(run, a) in done]
     n = len(rows)
@@ -86,7 +86,7 @@ def summarize(items, done, model, out):
     md += ["", "## Disagreements with Opus (first 15)", ""]
     for r, a in (up + down)[:15]:
         md.append(f"- {r} {a['phase']} {a['question_type']}: Opus {'yes' if a['correct'] else 'no'}, {model} {'no' if a['correct'] else 'yes'}. Q: {a['question'][:120]} Gold: {str(a['gold'])[:80]}")
-    (out / "summary.md").write_text("\n".join(md) + "\n")
+    (out / "summary.md").write_text("\n".join(md) + "\n", encoding="utf-8")
     print("\n".join(md[:9]))
 
 

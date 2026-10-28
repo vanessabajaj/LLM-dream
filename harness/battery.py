@@ -30,7 +30,7 @@ SERIAL_FOILS = ["scarf", "piano", "acorn", "puzzle", "magnet", "parrot", "shovel
 
 
 def _cao_lists():
-    txt = (ROOT / "external" / "LLM_CognitivePsychology" / "prompt.txt").read_text()
+    txt = (ROOT / "external" / "LLM_CognitivePsychology" / "prompt.txt").read_text(encoding="utf-8")
     sec = txt[txt.index("32 + 8 + 8 = 48"):]
     sec = sec[:sec.index('"""', sec.index("Analysis"))]
     study = re.findall(r'"(The [a-z]+ is in the [a-z]+\.)"', sec)
@@ -44,7 +44,7 @@ def pair_of(sentence):
 
 
 def drm_lists():
-    return json.loads((ROOT / "data" / "day11" / "drm_lists.json").read_text())
+    return json.loads((ROOT / "data" / "day11" / "drm_lists.json").read_text(encoding="utf-8"))
 
 
 def material(rng):

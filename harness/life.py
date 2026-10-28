@@ -40,7 +40,7 @@ def session_text(turns):
 
 def build(seed):
     rng = random.Random(seed)
-    data = json.load(open(DATA))
+    data = json.load(open(DATA, encoding="utf-8"))
     by_type = collections.defaultdict(list)
     for q in data:
         if q["question_type"] == "temporal-reasoning":
@@ -131,7 +131,7 @@ if __name__ == "__main__":
     OUT.mkdir(exist_ok=True)
     for seed in [int(s) for s in sys.argv[1:]] or [0, 1, 2]:
         life = build(seed)
-        (OUT / f"life_s{seed}.json").write_text(json.dumps(life))
+        (OUT / f"life_s{seed}.json").write_text(json.dumps(life), encoding="utf-8")
         c = collections.Counter((q["question_type"], q["abstention"]) for q in life["questions"])
         print(f"seed {seed}: {len(life['questions'])} questions {dict(c)}")
         print(f"  day tokens {[d['tokens'] for d in life['schedule']]}")

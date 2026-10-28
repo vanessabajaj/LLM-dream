@@ -25,7 +25,7 @@ THREADS = 3
 class Run:
     def __init__(self, arm, seed, days, out, skip_final=False, day_tokens=None):
         self.arm, self.seed, self.skip_final = arm, seed, skip_final
-        self.life = json.load(open(ROOT / "data" / "lives_v2" / f"life_s{seed}.json"))
+        self.life = json.load(open(ROOT / "data" / "lives_v2" / f"life_s{seed}.json", encoding="utf-8"))
         self.days = min(days, self.life["days"])
         self.scale = 1.0
         if day_tokens:  # smoke tests: shorten every day to about day_tokens and scale the caps with it
@@ -43,7 +43,7 @@ class Run:
         self.dir.mkdir(parents=True, exist_ok=True)
         self.state_path = self.dir / "state.json"
         if self.state_path.exists():
-            self.state = json.load(open(self.state_path))
+            self.state = json.load(open(self.state_path, encoding="utf-8"))
         else:
             self.state = {"arm": arm, "seed": seed, "phases_done": [], "memory": "",
                           "mem": ({"window": ""} if arm == "nosleep" else {"items": [], "next_id": 1}),
@@ -62,7 +62,7 @@ class Run:
 
     def save(self):
         tmp = self.state_path.with_suffix(".tmp")
-        tmp.write_text(json.dumps(self.state, indent=1))
+        tmp.write_text(json.dumps(self.state, indent=1), encoding="utf-8")
         tmp.replace(self.state_path)
 
     def night_rng(self, day):
@@ -121,13 +121,13 @@ class Run:
             rec = {"day": day, "cap": cap, "tokens": info["tokens"], "seconds": round(time.time() - t0, 1), **info}
         else:
             self.state["memory"] = memory.render_for_agent(new_mem["items"])
-            (self.dir / f"memory_night{day}{suffix}.json").write_text(json.dumps(new_mem["items"], indent=1))
+            (self.dir / f"memory_night{day}{suffix}.json").write_text(json.dumps(new_mem["items"], indent=1), encoding="utf-8")
             cr = info["cap_report"]
             rec = {"day": day, "cap": cap, "tokens": cr["tokens_after"], "items": cr["items_after"],
                    "items_with_details": sum(1 for i in new_mem["items"] if i.get("details")),
                    "details_stripped": cr["details_stripped"], "details_partial": cr["details_partial"],
                    "items_deleted": cr["items_deleted"], "seconds": round(time.time() - t0, 1), **info}
-        (self.dir / f"memory_night{day}{suffix}.txt").write_text(self.state["memory"])
+        (self.dir / f"memory_night{day}{suffix}.txt").write_text(self.state["memory"], encoding="utf-8")
         self.state["nights"].append(rec)
         return rec
 
@@ -223,7 +223,7 @@ if __name__ == "__main__":
         print("PAUSED:", e, flush=True); sys.exit(3)
     except api.RunAborted as e:
         run.save()
-        (ROOT / "BLOCKED.md").write_text(f"# Run aborted\n\n{run.tag}: {e}\n\nTime: {time.ctime()}\n")
+        (ROOT / "BLOCKED.md").write_text(f"# Run aborted\n\n{run.tag}: {e}\n\nTime: {time.ctime()}\n", encoding="utf-8")
         print("ABORTED:", e, flush=True); sys.exit(2)
     except Exception:
         run.save()

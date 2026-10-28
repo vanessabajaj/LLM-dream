@@ -18,7 +18,7 @@ def main():
         pct = float(sys.argv[2])
         b = {"pct_at_set": pct, "set_ts": time.time(), "weekly_usd": WEEKLY_USD, "stop_pct": STOP_PCT, "reset_ts": RESET.timestamp(),
              "set_at": time.ctime()}
-        api.BUDGET_FILE.write_text(json.dumps(b, indent=1))
+        api.BUDGET_FILE.write_text(json.dumps(b, indent=1), encoding="utf-8")
         print(f"set: {pct} percent at {b['set_at']}; room until {STOP_PCT} percent is {(STOP_PCT-pct)/100*WEEKLY_USD:.0f} USD list price")
     st = api.budget_status()
     if st is None:

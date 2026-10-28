@@ -55,7 +55,7 @@ def rethink_memory(agent_state: "AgentState", new_memory: str, target_block_labe
 import os
 PROMPTS = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "external", "sleep-time-compute", "prompts")
 def get_prompt_text(filename: str, block: str) -> str:
-    with open(f"{PROMPTS}/{block}/{filename}.txt", "r") as f:
+    with open(f"{PROMPTS}/{block}/{filename}.txt", "r", encoding="utf-8") as f:
         return f.read()
 
 async def run_memory_edits(

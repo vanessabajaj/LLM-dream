@@ -52,16 +52,16 @@ def main():
     labels_path = OUT / "labels.jsonl"
     done = {}
     if labels_path.exists():
-        for line in labels_path.read_text().splitlines():
+        for line in labels_path.read_text(encoding="utf-8").splitlines():
             d = json.loads(line); done[d["key"]] = d
     items = []
     for f in sorted(glob.glob(str(ROOT / "results" / "runs" / "*" / "state.json"))):
         run = pathlib.Path(f).parent.name
-        for a in json.load(open(f))["answers"]:
+        for a in json.load(open(f, encoding="utf-8"))["answers"]:
             items.append((run, a))
     todo = [it for it in items if key(*it) not in done][: args.limit]
     print(f"{len(items)} answers, {len(done)} already graded, grading {len(todo)}", flush=True)
-    with open(labels_path, "a") as fh, ThreadPoolExecutor(1) as ex:
+    with open(labels_path, "a", encoding="utf-8") as fh, ThreadPoolExecutor(1) as ex:
         for i, d in enumerate(ex.map(grade, todo), 1):
             if d is None:
                 continue
@@ -100,7 +100,7 @@ def summarize(items, done):
     md += ["", "## Disagreements (first 15)", ""]
     for r, a in (flips_up + flips_down)[:15]:
         md.append(f"- {r} {a['phase']} {a['question_type']}: Opus {'yes' if a['correct'] else 'no'}, gpt-4o {'no' if a['correct'] else 'yes'}. Q: {a['question'][:120]} Gold: {str(a['gold'])[:80]}")
-    (OUT / "summary.md").write_text("\n".join(md) + "\n")
+    (OUT / "summary.md").write_text("\n".join(md) + "\n", encoding="utf-8")
     print("\n".join(md[:12]))
 
 

@@ -14,7 +14,7 @@ for _f in ("Regular", "Bold"):
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "paper" / "figures"
-D = json.load(open(ROOT / "results" / "summary_v2.json"))
+D = json.load(open(ROOT / "results" / "summary_v2.json", encoding="utf-8"))
 RUNS = D["runs"]
 SEEDS = D["seeds"]
 

@@ -8,7 +8,7 @@ https://huggingface.co/datasets/xiaowu0162/longmemeval-cleaned into data/raw/ fi
 import json, pathlib
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-raw = json.load(open(ROOT / "data" / "raw" / "longmemeval_s_cleaned.json"))
+raw = json.load(open(ROOT / "data" / "raw" / "longmemeval_s_cleaned.json", encoding="utf-8"))
 sessions = {}
 for q in raw:
     for sid, sess in zip(q["haystack_session_ids"], q["haystack_sessions"]):
@@ -17,12 +17,12 @@ for q in raw:
 out = ROOT / "data" / "lives_v2"
 out.mkdir(parents=True, exist_ok=True)
 for seed in range(3):
-    life = json.load(open(ROOT / "data" / "lives_manifest" / f"life_s{seed}.manifest.json"))
+    life = json.load(open(ROOT / "data" / "lives_manifest" / f"life_s{seed}.manifest.json", encoding="utf-8"))
     for day in life["schedule"]:
         for s in day["sessions"]:
             s["turns"] = sessions[s["session_id"]]
     for q in life["questions"]:
         for e in q["evidence"]:
             e["turns"] = sessions[e["session_id"]]
-    (out / f"life_s{seed}.json").write_text(json.dumps(life))
+    (out / f"life_s{seed}.json").write_text(json.dumps(life), encoding="utf-8")
     print(f"seed {seed}: {sum(len(d['sessions']) for d in life['schedule'])} sessions")

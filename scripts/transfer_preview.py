@@ -11,7 +11,7 @@ def main():
          "After night 10 the agent gets one near probe (a request like the episodes) and one far probe (a different kind of request where the rule still applies). "
          "The judges mark a reply as following the rule when it matches the 'follows if' line. The empty-memory rate is how often an agent with no memory followed the rule anyway, over 6 samples; rules at 20 percent or more were replaced.", ""]
     for p in sorted(glob.glob(str(ROOT / "data" / "transfer_v2" / "transfer_s*.json"))):
-        t = json.load(open(p))
+        t = json.load(open(p, encoding="utf-8"))
         L += [f"## Seed {t['seed']}", "",
               f"Built {t['built']} by {t['model']}. {t['check']['candidates_checked']} candidate rules checked against an empty memory, {t['check']['replaced']} replaced. "
               f"Episode tokens per day: {t['episode_tokens_by_day']} (reserve {t['episode_reserve']:,}).", "",
@@ -33,7 +33,7 @@ def main():
                 pr = r[f"{kind}_probe"]
                 L += [f"**{kind.capitalize()} probe.** {pr['text']}", "", f"*Follows if:* {pr['follows_if']}", ""]
     out = ROOT / "results" / "transfer_preview.md"
-    out.write_text("\n".join(L))
+    out.write_text("\n".join(L), encoding="utf-8")
     print(f"wrote {out} ({len(L)} lines, seeds {[int(pathlib.Path(p).stem[-1]) for p in sorted(glob.glob(str(ROOT / 'data' / 'transfer_v2' / 'transfer_s*.json')))]})")
 
 

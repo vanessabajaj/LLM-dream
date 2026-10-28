@@ -33,7 +33,7 @@ def main():
     a = ap.parse_args()
     areas = a.area.split(","); days = [int(x) for x in a.days.split(",")] if a.days else None
     path = ROOT / "data" / "lives_v2" / f"life_s{a.seed}.json"
-    life = json.load(open(path)); data = json.load(open(RAW))
+    life = json.load(open(path, encoding="utf-8")); data = json.load(open(RAW, encoding="utf-8"))
     scores = ts.load_scores()
     cands = pool(life, data)
     print(f"seed {a.seed}: {len(cands)} candidate fillers in pool")
@@ -75,8 +75,8 @@ def main():
     life.setdefault("swaps", []).extend({"day": p[0], "old": p[1], "old_tokens": p[2], "new": p[3], "new_tokens": p[4],
                                          "reason": f"topic score >= {a.min_score} in {a.area}"} for p in plan)
     bak = path.with_suffix(".before_topic_swap.json")
-    if not bak.exists(): bak.write_text(path.read_text())
-    path.write_text(json.dumps(life))
+    if not bak.exists(): bak.write_text(path.read_text(), encoding="utf-8")
+    path.write_text(json.dumps(life), encoding="utf-8")
     print("applied; day tokens now", [d["tokens"] for d in life["schedule"]])
 
 def ntok_log(sessions):

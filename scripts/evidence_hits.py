@@ -16,7 +16,7 @@ REPLACED = {"splice", "paragraph"}  # replaced outright; swap, change, words are
 
 
 def has_answer_flags():
-    raw = json.load(open(ROOT / "data" / "raw" / "longmemeval_s_cleaned.json"))
+    raw = json.load(open(ROOT / "data" / "raw" / "longmemeval_s_cleaned.json", encoding="utf-8"))
     flags = {}
     for q in raw:
         for sid, sess in zip(q["haystack_session_ids"], q["haystack_sessions"]):
@@ -26,7 +26,7 @@ def has_answer_flags():
 
 
 def evidence_index(seed, flags):
-    life = json.load(open(ROOT / "data" / "lives_v2" / f"life_s{seed}.json"))
+    life = json.load(open(ROOT / "data" / "lives_v2" / f"life_s{seed}.json", encoding="utf-8"))
     qids = {q["question_id"] for q in life["questions"]}
     transfer.inject(life, seed)
     per_day = []
@@ -51,7 +51,7 @@ def main():
     rows = []
     for arm in ARMS:
         for seed in SEEDS:
-            st = json.load(open(ROOT / "results" / "runs_v2" / f"{arm}_s{seed}" / "state.json"))
+            st = json.load(open(ROOT / "results" / "runs_v2" / f"{arm}_s{seed}" / "state.json", encoding="utf-8"))
             r = dict(arm=arm, seed=seed, total=0, corr=0, ev=0, ev_corr=0, ev_repl=0, evs=0, evs_corr=0, mismatch=0)
             for night in st["nights"]:
                 d = night["day"]
@@ -89,7 +89,7 @@ def main():
     text = "# Evidence turns hit by night corruption (runs_v2, days 0 to 9)\n\n" + "\n".join(out) + "\n\n" + note + "\n"
     if bad:
         text += f"\nTurn count mismatches between reconstructed days and night records: {bad}\n"
-    (ROOT / "paper" / "evidence_hits.md").write_text(text)
+    (ROOT / "paper" / "evidence_hits.md").write_text(text, encoding="utf-8")
     print("\n".join(out))
     print("mismatched nights:", bad)
 

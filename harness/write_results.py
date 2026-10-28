@@ -8,7 +8,7 @@ import json, pathlib, time, collections, sys
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "harness"))
 import api, arms
-S = json.load(open(ROOT / "results" / "summary_v2.json"))
+S = json.load(open(ROOT / "results" / "summary_v2.json", encoding="utf-8"))
 NAMES = {"nosleep": "No sleep (raw window at the cap)", "faithful": "Faithful replay",
          "structured_05": "Structured noise, 5 percent", "structured_10": "Structured noise, 10 percent",
          "structured_20": "Structured noise, 20 percent", "structured_40": "Structured noise, 40 percent",
@@ -30,7 +30,7 @@ def f(x, pct=True):
 def spend():
     """Since the v2 start: Max-plan calls at list price (no money), real money by provider."""
     maxp = collections.Counter(); real = collections.Counter()
-    for line in open(ROOT / "cost.jsonl"):
+    for line in open(ROOT / "cost.jsonl", encoding="utf-8"):
         try: r = json.loads(line)
         except ValueError: continue
         if r.get("ts", 0) < api.V2_START: continue
@@ -71,7 +71,7 @@ def main():
          f"**Judges.** gpt-5.6-luna grades every answer, Opus 5.5 grades it again. They agree on {f(ja)} percent of {S['judge_graded']:,} graded answers ({S['judge_disagreements']} disagreements). Numbers below are luna's unless marked.", "",
          f"**The one number.** Final-day recall, structured noise at 20 percent minus faithful replay, mean over seeds: **{f(head)} points** (per seed: {[round(100*v) for v in head['values']] if head else 'n/a'}). Verdict: {verdict(head)}.", "",
          f"Novel tasks (multi-session questions), same difference: {f(novel)} points, {verdict(novel)}. Far transfer probes, same difference: {f(far)} points, {verdict(far)}. DRM critical-lure false alarms after sleep, same difference: {f(lure)} points, {verdict(lure)}.", "",
-         *(((ROOT / "results" / "reading_v2.md").read_text(), "") if (ROOT / "results" / "reading_v2.md").exists() else ()),
+         *(((ROOT / "results" / "reading_v2.md").read_text(encoding="utf-8"), "") if (ROOT / "results" / "reading_v2.md").exists() else ()),
          "## Claim", "",
          "An agent whose nightly replay is corrupted on purpose recalls as much on the last day as an agent with faithful replay, and does better on situations it has never seen (Hoel's overfitted brain hypothesis, tested on a text-memory LLM agent). v2 tests it at four corruption rates, with structured and random noise side by side, and with a transfer test built for it.", "",
          "## Method in brief", "",
@@ -147,7 +147,7 @@ def main():
           "- Absolute accuracy is not comparable with published LongMemEval numbers: days are stitched from several users' histories, temporal-reasoning questions are excluded, and the judge is gpt-5.6-luna rather than gpt-4o.",
           "- Three seeds. A difference smaller than the seed spread is no result. Recall rests on 100 questions per life, transfer on 24 probes per life.",
           "- The Letta replication check did not run (BLOCKED.md), so the harness is validated only by its own no-sleep baseline forgetting as expected, not by matching a published number.", ""]
-    (ROOT / "results" / "results_v2.md").write_text("\n".join(L))
+    (ROOT / "results" / "results_v2.md").write_text("\n".join(L), encoding="utf-8")
     print("\n".join(L[:12]))
 
 

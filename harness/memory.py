@@ -146,20 +146,20 @@ def enforce_cap(items, cap):
         total = tokens(items)
         if total <= cap:
             break
-    # pass 2: whole items, only when everything is already gist-only
-    if total > cap and all(not it.get("details") for it in items):
-        for it in _strip_order(items):
-            items.remove(it)
-            rep["items_deleted"] += 1
-            total = tokens(items)
-            if total <= cap:
-                break
-    elif total > cap:
+    if total > cap:
         # a partial cut left us slightly over (sentence splitting is approximate): strip the next details
         for it in _strip_order(items):
             if not it.get("details"):
                 continue
             it["details"] = ""; rep["details_stripped"] += 1
+            total = tokens(items)
+            if total <= cap:
+                break
+    # pass 2: whole items, only once everything is down to its gist (the loop above leaves it so when still over)
+    if total > cap:
+        for it in _strip_order(items):
+            items.remove(it)
+            rep["items_deleted"] += 1
             total = tokens(items)
             if total <= cap:
                 break

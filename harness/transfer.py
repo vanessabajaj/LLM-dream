@@ -98,7 +98,7 @@ def available(seed):
 
 
 def load(seed):
-    return json.loads(path(seed).read_text())
+    return json.loads(path(seed).read_text(encoding="utf-8"))
 
 
 # ---- run time --------------------------------------------------------------------------------------
@@ -230,10 +230,10 @@ def place(rules, seed, budget):
 def build(seed, avoid_from=()):
     OUT.mkdir(parents=True, exist_ok=True)
     work = OUT / f"work_s{seed}.json"  # resumable: every authoring call and check is saved as it finishes
-    w = json.loads(work.read_text()) if work.exists() else {"seed": seed, "author_calls": [], "candidates": []}
+    w = json.loads(work.read_text(encoding="utf-8")) if work.exists() else {"seed": seed, "author_calls": [], "candidates": []}
 
     def save():
-        work.write_text(json.dumps(w, indent=1))
+        work.write_text(json.dumps(w, indent=1), encoding="utf-8")
 
     avoid = []
     for s in avoid_from:
@@ -307,7 +307,7 @@ def build(seed, avoid_from=()):
            "episode_tokens_by_day": used, "episode_reserve": EPISODE_RESERVE,
            "author_calls": w["author_calls"], "generation_system": GEN_SYSTEM, "judge_template": JUDGE_TMPL,
            "rules": rules}
-    path(seed).write_text(json.dumps(out, indent=1))
+    path(seed).write_text(json.dumps(out, indent=1), encoding="utf-8")
     print(f"seed {seed}: kept {len(rules)}, checked {len(checked)}, replaced {out['check']['replaced']}, "
           f"episode tokens by day {used}", flush=True)
     return out

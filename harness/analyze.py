@@ -180,7 +180,7 @@ def summarise(runs):
 def load_runs(runs_dir=RUNS):
     runs = {}
     for p in sorted(glob.glob(str(runs_dir / "*_s*" / "state.json"))):
-        s = json.load(open(p))
+        s = json.load(open(p, encoding="utf-8"))
         if s["arm"] in ARMS:
             runs[(s["arm"], s["seed"])] = per_run(s)
     return runs
@@ -223,13 +223,13 @@ def main():
     p.add_argument("--runs-dir", default=str(RUNS))
     a = p.parse_args()
     if a.run:
-        s = json.load(open(pathlib.Path(a.run) / "state.json"))
+        s = json.load(open(pathlib.Path(a.run) / "state.json", encoding="utf-8"))
         print(json.dumps(per_run(s), indent=1)); return
     runs = load_runs(pathlib.Path(a.runs_dir))
     if not runs:
         print("no runs found"); return
     S = summarise(runs)
-    SUMMARY.write_text(json.dumps(S, indent=1))
+    SUMMARY.write_text(json.dumps(S, indent=1), encoding="utf-8")
     print_tables(S)
 
 

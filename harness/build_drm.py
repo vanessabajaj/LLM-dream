@@ -107,7 +107,7 @@ def build():
 if __name__ == "__main__":
     out = build()
     OUT.parent.mkdir(parents=True, exist_ok=True)
-    OUT.write_text(json.dumps(out, indent=1))
+    OUT.write_text(json.dumps(out, indent=1), encoding="utf-8")
     for c in out["lists"]:
         print(f"{c['lure']:>10} BAS {c['bas']:.3f}: {', '.join(c['words'])}")
     print("unrelated:", ", ".join(out["unrelated"]), f"({out['n_candidates']} candidate lures)")

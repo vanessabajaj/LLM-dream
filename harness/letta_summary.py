@@ -7,7 +7,7 @@ def standardize(a): return a.replace("$", "").replace(",", "").strip(".")
 
 def score(path):
     correct = total = 0; toks = []; errors = 0
-    for line in open(path):
+    for line in open(path, encoding="utf-8"):
         o = json.loads(line)
         if "error" in o: errors += 1; continue
         r = o["responses"][0]
@@ -25,7 +25,7 @@ def score(path):
             "avg_completion_tokens": statistics.mean(toks) if toks else None}
 
 if __name__ == "__main__":
-    fig = json.load(open(OUT / "figure3_digitised.json"))
+    fig = json.load(open(OUT / "figure3_digitised.json", encoding="utf-8"))
     rows = []
     for f in sorted(glob.glob(str(OUT / "p2_v0_*.jsonl"))):
         s = score(f); s["file"] = pathlib.Path(f).name; rows.append(s)
@@ -37,5 +37,5 @@ if __name__ == "__main__":
         acc = "n/a" if s["accuracy"] is None else f"{s['accuracy']:.3f}"
         tk = "n/a" if s["avg_completion_tokens"] is None else f"{s['avg_completion_tokens']:.0f}"
         md.append(f"| {s['file']} | {s['n']} | {s['errors']} | {acc} | {tk} |")
-    (OUT / "summary.md").write_text("\n".join(md) + "\n")
+    (OUT / "summary.md").write_text("\n".join(md) + "\n", encoding="utf-8")
     print("\n".join(md))

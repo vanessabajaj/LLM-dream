@@ -19,8 +19,9 @@ v2 (4 Oct 2026):
 - count_tokens() uses Anthropic's free token-counting endpoint (the API key), cached in data/token_cache.sqlite.
 - openai_chat() is the one way to call OpenAI (the luna judge), logged to cost.jsonl like everything else.
 """
-import json, os, time, uuid, threading, pathlib, fcntl, subprocess, tempfile, re, hashlib, sqlite3
+import json, os, time, uuid, threading, pathlib, subprocess, tempfile, re, hashlib, sqlite3, shutil
 import anthropic
+from filelock import FileLock
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 CALLS_DIR = ROOT / "logs" / "calls"
@@ -42,6 +43,7 @@ OPENAI_PRICE = {"gpt-4o-2024-08-06": (2.50, 10.00), "gpt-4o-mini": (0.15, 0.60),
 MAX_OUTPUT_TOKENS = 64000       # ceiling for claude -p output; a sleep night writes about 20,000
 
 _lock = threading.Lock()
+_cost_lock = FileLock(str(COST_FILE) + ".lock")  # across processes; works on Windows, unlike fcntl
 
 
 class RunAborted(RuntimeError):
@@ -62,7 +64,7 @@ class Refusal(RuntimeError):
 def _load_env():
     env = ROOT / ".env"
     if env.exists():
-        for line in env.read_text().splitlines():
+        for line in env.read_text(encoding="utf-8").splitlines():
             if "=" in line and not line.startswith("#"):
                 k, v = line.split("=", 1)
                 os.environ.setdefault(k.strip(), v.strip())
@@ -104,7 +106,7 @@ class _CostTally:
     def refresh(self):
         if not COST_FILE.exists():
             return
-        with open(COST_FILE) as f:
+        with open(COST_FILE, encoding="utf-8") as f:
             f.seek(self.offset)
             for line in f:
                 try:
@@ -142,10 +144,8 @@ def real_spend_v2():
 def log_cost(record):
     """Append one line to cost.jsonl under a file lock."""
     record.setdefault("ts", time.time())
-    with _lock, open(COST_FILE, "a") as f:
-        fcntl.flock(f, fcntl.LOCK_EX)
+    with _lock, _cost_lock, open(COST_FILE, "a", encoding="utf-8") as f:
         f.write(json.dumps(record) + "\n")
-        fcntl.flock(f, fcntl.LOCK_UN)
 
 
 def check_cap():
@@ -160,7 +160,7 @@ def budget():
     """usage_budget.json: {pct_at_set, set_ts, weekly_usd, stop_pct, reset_ts}. Written by scripts/usage.py."""
     if not BUDGET_FILE.exists():
         return None
-    return json.loads(BUDGET_FILE.read_text())
+    return json.loads(BUDGET_FILE.read_text(encoding="utf-8"))
 
 
 def budget_status(now=None):
@@ -253,9 +253,9 @@ def _sub_once(system, prompt, json_schema, timeout, tag=""):
     env["CLAUDE_CODE_MAX_OUTPUT_TOKENS"] = str(MAX_OUTPUT_TOKENS)
     env["CLAUDE_CODE_NO_MODEL_FALLBACK"] = "1"  # a refusal comes back as a refusal, never as another model's answer
     # the system prompt goes through a file: a 130,000-token day is far past the kernel's argument limit
-    sp = tempfile.NamedTemporaryFile("w", dir=_SUB_DIR, suffix=".txt", delete=False)
+    sp = tempfile.NamedTemporaryFile("w", encoding="utf-8", dir=_SUB_DIR, suffix=".txt", delete=False)
     sp.write(system); sp.close()
-    cmd = ["claude", "-p", "--model", MODEL, "--effort", EFFORT, "--system-prompt-file", sp.name,
+    cmd = [shutil.which("claude") or "claude", "-p", "--model", MODEL, "--effort", EFFORT, "--system-prompt-file", sp.name,
            "--tools", "", "--setting-sources", "", "--strict-mcp-config", "--no-session-persistence",
            "--output-format", "json"]
     if json_schema is not None:
@@ -272,7 +272,8 @@ def _sub_loop(cmd, prompt, timeout, tag=""):
     env["CLAUDE_CODE_NO_MODEL_FALLBACK"] = "1"  # a refusal comes back as a refusal, never as another model's answer
     for attempt in range(5):
         t0 = time.time()
-        p = subprocess.run(cmd, input=prompt, capture_output=True, text=True, env=env, cwd=_SUB_DIR, timeout=timeout)
+        p = subprocess.run(cmd, input=prompt, capture_output=True, text=True, encoding="utf-8", errors="replace",
+                           env=env, cwd=_SUB_DIR, timeout=timeout)
         dt = time.time() - t0
         try:
             body = json.loads(p.stdout)
@@ -288,7 +289,7 @@ def _sub_loop(cmd, prompt, timeout, tag=""):
             # claude-opus-5-5 failed). The reply never reaches the run; the call is made again.
             mid = f"mismatch_{time.strftime('%Y%m%dT%H%M%S')}_{uuid.uuid4().hex[:8]}"
             (CALLS_DIR / f"{mid}.json").write_text(json.dumps({"call_id": mid, "tag": tag, "ts": t0, "seconds": dt, "backend": "subscription",
-                "request": {"cmd": cmd, "prompt": prompt}, "response": body, "stderr": (p.stderr or "")[-2000:]}, indent=1, default=str))
+                "request": {"cmd": cmd, "prompt": prompt}, "response": body, "stderr": (p.stderr or "")[-2000:]}, indent=1, default=str), encoding="utf-8")
             log_cost({"call_id": mid, "tag": tag, "provider": "anthropic",
                       "backend": "subscription", "model": ",".join(models), "usd": body.get("total_cost_usd", 0), "error": "MODEL_MISMATCH", "ts": t0})
             err = f"model mismatch: asked {MODEL}, got {models}; reply discarded"
@@ -322,7 +323,7 @@ def _call_subscription(system, messages, *, tag, json_schema=None, timeout=900):
     (CALLS_DIR / f"{call_id}.json").write_text(json.dumps(
         {"call_id": call_id, "tag": tag, "ts": t0, "seconds": dt, "backend": "subscription",
          "request": {"system": system, "prompt": prompt, "model": MODEL, "effort": EFFORT, "json_schema": json_schema},
-         "response": body}, indent=1, default=str))
+         "response": body}, indent=1, default=str), encoding="utf-8")
     models = list((body.get("modelUsage") or {}).keys())
     if models != [MODEL]:
         log_cost({"call_id": call_id, "tag": tag, "provider": "anthropic", "backend": "subscription",
@@ -375,7 +376,7 @@ def call(system, messages, *, tag, max_tokens=4000, cache_system=True, json_sche
 
     (CALLS_DIR / f"{call_id}.json").write_text(json.dumps(
         {"call_id": call_id, "tag": tag, "ts": t0, "seconds": dt, "request": req, "response": body},
-        indent=1, default=str))
+        indent=1, default=str), encoding="utf-8")
 
     if body["model"] != MODEL:
         log_cost({"call_id": call_id, "tag": tag, "provider": "anthropic", "backend": "api", "model": body["model"],
@@ -432,5 +433,5 @@ def openai_chat(model, prompt, *, tag, max_completion_tokens=200):
         rec["usd_basis"] = "gpt-4o list price as placeholder, luna price unknown"
     log_cost(rec)
     (CALLS_DIR / f"{r.id}.json").write_text(json.dumps({"call_id": r.id, "tag": tag, "provider": "openai",
-        "request": {"model": model, "prompt": prompt}, "response": r.model_dump()}, indent=1, default=str))
+        "request": {"model": model, "prompt": prompt}, "response": r.model_dump()}, indent=1, default=str), encoding="utf-8")
     return (r.choices[0].message.content or "").strip(), r

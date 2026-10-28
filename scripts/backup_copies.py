@@ -7,7 +7,7 @@ import transfer
 from evidence_hits import has_answer_flags, REPLACED, DAYS
 
 def answer_turns(seed, flags):
-    life = json.load(open(ROOT / "data" / "lives_v2" / f"life_s{seed}.json"))
+    life = json.load(open(ROOT / "data" / "lives_v2" / f"life_s{seed}.json", encoding="utf-8"))
     qs = {q["question_id"]: q for q in life["questions"]}
     transfer.inject(life, seed)
     per_q = collections.defaultdict(list)  # qid -> [(day, idx)]
@@ -24,7 +24,7 @@ def answer_turns(seed, flags):
     return qs, per_q, nsess
 
 def final_correct(arm, seed):
-    st = json.load(open(ROOT / "results" / "runs_v2" / f"{arm}_s{seed}" / "state.json"))
+    st = json.load(open(ROOT / "results" / "runs_v2" / f"{arm}_s{seed}" / "state.json", encoding="utf-8"))
     return {a["question_id"]: a["correct"] for a in st["answers"] if a["phase"] == "final"}, st
 
 flags = has_answer_flags()

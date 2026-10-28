@@ -35,10 +35,10 @@ def score_one(sid, txt):
         return {a: -1 for a in AREAS}
 
 def load_scores():
-    return json.loads(OUT.read_text()) if OUT.exists() else {}
+    return json.loads(OUT.read_text(encoding="utf-8")) if OUT.exists() else {}
 
 def sessions(seed):
-    L = json.load(open(ROOT / "data" / "lives_v2" / f"life_s{seed}.json"))
+    L = json.load(open(ROOT / "data" / "lives_v2" / f"life_s{seed}.json", encoding="utf-8"))
     for d in L["schedule"]:
         for s in d["sessions"]:
             yield d["day"], s
@@ -53,8 +53,8 @@ def score_sessions(items, scores):
         for f in cf.as_completed(futs):
             scores[futs[f]] = f.result(); n += 1
             if n % 20 == 0:
-                OUT.write_text(json.dumps(scores)); print(f"  {n}/{len(todo)}", flush=True)
-    OUT.write_text(json.dumps(scores))
+                OUT.write_text(json.dumps(scores), encoding="utf-8"); print(f"  {n}/{len(todo)}", flush=True)
+    OUT.write_text(json.dumps(scores), encoding="utf-8")
     return scores
 
 def report(scores, seeds=(0, 1, 2)):

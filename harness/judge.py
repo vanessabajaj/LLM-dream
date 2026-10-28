@@ -8,7 +8,7 @@ import ast, json, os, pathlib
 import api
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-_src = (ROOT / "external" / "longmemeval_evaluate_qa.py").read_text()
+_src = (ROOT / "external" / "longmemeval_evaluate_qa.py").read_text(encoding="utf-8")
 _tree = ast.parse(_src)
 _fn = next(n for n in _tree.body if isinstance(n, ast.FunctionDef) and n.name == "get_anscheck_prompt")
 _ns = {}
