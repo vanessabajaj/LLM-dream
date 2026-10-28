@@ -146,7 +146,7 @@ def main():
           "- Whether the agent dreams in any felt sense.", "- Whether the result holds when knowledge lives in weights rather than in a text memory.", "- Whether it holds past one model (claude-opus-5-5) or one cap curve (15 percent of each day, decaying with age).",
           "- Absolute accuracy is not comparable with published LongMemEval numbers: days are stitched from several users' histories, temporal-reasoning questions are excluded, and the judge is gpt-5.6-luna rather than gpt-4o.",
           "- Three seeds. A difference smaller than the seed spread is no result. Recall rests on 100 questions per life, transfer on 24 probes per life.",
-          "- The Letta replication check did not run (BLOCKED.md), so the harness is validated only by its own no-sleep baseline forgetting as expected, not by matching a published number.", ""]
+          "- The Letta replication check ran after the sweep, results in results/letta_check/summary.md.", ""]
     (ROOT / "results" / "results_v2.md").write_text("\n".join(L), encoding="utf-8")
     print("\n".join(L[:12]))
 

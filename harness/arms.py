@@ -1,5 +1,5 @@
 """The night steps. Only this file differs between arms; the day loop and the prompts the agent sees are shared.
-v2: seven arms, a cap that grows each night, item memory (memory.py), batched structured corruption."""
+v2: ten arms, a cap that grows each night, item memory (memory.py), batched structured corruption."""
 import json, random, re, pathlib, copy
 import api, memory
 from life import ntok, ntok_fast, session_text
@@ -19,7 +19,6 @@ def cap_for(night, scale=1.0):
 
 ARMS = ["nosleep", "faithful", "structured_05", "structured_10", "structured_20", "structured_40",
         "random_05", "random_10", "random_20", "random_40"]
-RATE = {"structured_05": 0.05, "structured_10": 0.10, "structured_20": 0.20, "structured_40": 0.40, "random_20": 0.20}
 
 # Eric's wording from spec-v2.md Change 1, kept as is. The last paragraph replaces v1's "Output only the memory
 # text", because the memory is now a list of items returned as a delta (decisions.md).
