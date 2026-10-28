@@ -1,7 +1,7 @@
 """Judge agreement gate for the sweep (HANDOFF.md): after the first finished v2 run, luna and Opus must agree on
 about 90 percent of its answers, or the sweep stops before the next run. Prints the agreement every time it runs.
 Exit 1 when the gate fails, 0 otherwise."""
-import sys, pathlib
+import sys, pathlib, argparse
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent / "harness"))
 import analyze
 
@@ -9,7 +9,10 @@ LINE = 0.90
 
 
 def main():
-    runs = analyze.load_runs()
+    p = argparse.ArgumentParser()
+    p.add_argument("--runs-dir", default=str(analyze.RUNS))
+    a = p.parse_args()
+    runs = analyze.load_runs(pathlib.Path(a.runs_dir))
     finished = {k: v for k, v in runs.items() if v["finished"]}
     graded = sum(v["judge_graded"] for v in finished.values()); dis = sum(v["judge_disagreements"] for v in finished.values())
     if not graded:

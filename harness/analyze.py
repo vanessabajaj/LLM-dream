@@ -6,6 +6,7 @@ between the two judges (luna main, Opus second) on every graded answer.
 
   .venv/bin/python harness/analyze.py                 # all runs under results/runs_v2
   .venv/bin/python harness/analyze.py --run DIR       # one run's summary as JSON (used by scripts/run_all.sh)
+  .venv/bin/python harness/analyze.py --from-summaries  # rebuild from committed per-run summary.json files
 """
 import json, glob, pathlib, statistics as st, sys, argparse
 ROOT = pathlib.Path(__file__).resolve().parent.parent
@@ -45,11 +46,14 @@ def agreement(rows, a="correct", b="correct_opus"):
 
 def per_run(state):
     A = state["answers"]
-    N = state.get("nights", [])
+    all_nights = state.get("nights", [])
+    # the day-11 battery night is a separate consolidation; keep it out of the ten-day life metrics
+    N = [n for n in all_nights if n["day"] < DAYS]
+    battery = [n for n in all_nights if n["day"] >= DAYS]
     ev = [r for r in A if r["phase"] == "evening" and not r["abstention"]]
     mo = [r for r in A if r["phase"] == "morning" and not r["abstention"]]
     fi = [r for r in A if r["phase"] == "final" and not r["abstention"]]
-    days = len([n for n in N if n["day"] < DAYS]) or DAYS
+    days = len(N) or DAYS
     sleep_nights = [n for n in N if "details_stripped" in n]
     out = {
         "arm": state["arm"], "seed": state["seed"], "rate": rate_of(state["arm"]), "family": family_of(state["arm"]),
@@ -85,7 +89,11 @@ def per_run(state):
         "sleep_output_tokens": st.mean(n["output_tokens"] for n in sleep_nights if n.get("output_tokens")) if any(n.get("output_tokens") for n in sleep_nights) else None,
         "sleep_seconds": st.mean(n["seconds"] for n in sleep_nights) if sleep_nights else None,
         "corrupted_turns": sum(n["corruption"]["n_corrupted"] for n in N if n.get("corruption")) or None,
+        "battery_night": ({"day": battery[-1]["day"], "tokens": battery[-1]["tokens"], "cap": battery[-1]["cap"],
+                           "details_stripped": battery[-1].get("details_stripped"),
+                           "items_deleted": battery[-1].get("items_deleted")} if battery else None),
         "finished": "all" in state["phases_done"],
+        "skipped": state.get("skipped", []),
     }
     # transfer test: did the agent follow the hidden rule on the near and the far probe (main judge, Opus second)
     T = state.get("transfer") or []
@@ -145,7 +153,7 @@ def summarise(runs):
         v["finished_runs"] = sum(1 for r in rs if r["finished"])
         v["refusals"] = sum(r["refusals"] for r in rs)
         v["judge_agreement"] = msd([r["judge_agreement"] for r in rs])
-        v["memory_tokens_by_night"] = [msd([r["memory_tokens_by_night"][i] for r in rs if len(r["memory_tokens_by_night"]) > i]) for i in range(DAYS + 1)]
+        v["memory_tokens_by_night"] = [msd([r["memory_tokens_by_night"][i] for r in rs if len(r["memory_tokens_by_night"]) > i]) for i in range(DAYS)]
         by_arm[arm] = v
     # paired differences against faithful, same seed
     paired = {}
@@ -186,6 +194,37 @@ def load_runs(runs_dir=RUNS):
     return runs
 
 
+def _normalise_legacy(r):
+    """Older per-run summaries counted the day-11 battery night in the ten-day memory means."""
+    arr, caps = r.get("memory_tokens_by_night") or [], r.get("cap_by_night") or []
+    if len(arr) <= DAYS:
+        r.setdefault("battery_night", None)
+        return r
+    r = dict(r)
+    r["memory_tokens_by_night"] = arr[:DAYS]
+    r["cap_by_night"] = caps[:DAYS]
+    r["memory_fill_by_night"] = [a / c for a, c in zip(arr[:DAYS], caps[:DAYS]) if c]
+    r["mean_memory_tokens"] = st.mean(arr[:DAYS])
+    r["mean_memory_fill"] = st.mean(a / c for a, c in zip(arr[:DAYS], caps[:DAYS]) if c)
+    r["final_memory_tokens"] = arr[DAYS - 1]
+    r["nights"] = DAYS
+    r["battery_night"] = {"day": DAYS, "tokens": arr[DAYS], "cap": caps[DAYS] if len(caps) > DAYS else None,
+                          "details_stripped": None, "items_deleted": None}
+    # the old summary totals cannot be split without the missing state.json; make that explicit
+    r["legacy_includes_battery_totals"] = True
+    return r
+
+
+def load_summaries(runs_dir=RUNS):
+    """Rebuild the aggregate from the committed per-run summary.json files when state.json is unavailable."""
+    runs = {}
+    for p in sorted(glob.glob(str(runs_dir / "*_s*" / "summary.json"))):
+        r = _normalise_legacy(json.load(open(p, encoding="utf-8")))
+        if r.get("arm") in ARMS:
+            runs[(r["arm"], r["seed"])] = r
+    return runs
+
+
 def print_tables(S):
     by = S["by_arm"]
     def f(x): return "   n/a   " if x is None else f"{x['mean']:.3f}±{x['sd']:.3f}"
@@ -221,11 +260,12 @@ def main():
     p = argparse.ArgumentParser()
     p.add_argument("--run", help="one run directory: print its per-run summary as JSON and exit")
     p.add_argument("--runs-dir", default=str(RUNS))
+    p.add_argument("--from-summaries", action="store_true", help="rebuild from per-run summary.json instead of state.json")
     a = p.parse_args()
     if a.run:
         s = json.load(open(pathlib.Path(a.run) / "state.json", encoding="utf-8"))
         print(json.dumps(per_run(s), indent=1)); return
-    runs = load_runs(pathlib.Path(a.runs_dir))
+    runs = (load_summaries if a.from_summaries else load_runs)(pathlib.Path(a.runs_dir))
     if not runs:
         print("no runs found"); return
     S = summarise(runs)
