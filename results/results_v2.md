@@ -1,20 +1,24 @@
 # Results: noisy replay at four doses
 
-Generated 13 October 2026 23:30 UTC. Model under test claude-opus-5-5, effort medium, through Claude Code on the Max plan. Days of 130,000 tokens; the memory cap grows each night (19,500, 35,100, 48,100, 59,800, 70,850, 81,250, 91,000, 100,100, 108,550, 117,000 tokens). Ten days, ten arms, three seeds.
+Generated 28 October 2026 20:07 UTC. Model under test claude-opus-5-5, effort medium, through Claude Code on the Max plan. Days of 130,000 tokens; the memory cap grows each night (19,500, 35,100, 48,100, 59,800, 70,850, 81,250, 91,000, 100,100, 108,550, 117,000 tokens). Ten days, ten arms, three seeds.
 
 ## One-screen summary
 
-**What ran.** 30 of 30 runs finished (ten arms x three seeds). Each run: ten days of about 30 LongMemEval sessions plus the transfer-test episodes, one night step per day, 100 memory questions asked before sleep, after sleep and at the end, 24 transfer probes after night 10, then an eleventh day with the memory-effects battery. Spend: 1991.17 USD list price on the Max plan over 20323 Opus calls (no money), 11.69 USD on OpenAI over 15733 judge calls.
+**What ran.** 30 of 30 runs finished (ten arms x three seeds). Each run: ten days of about 30 LongMemEval sessions plus the transfer-test episodes, one night step per day, 100 memory questions asked before sleep, after sleep and at the end, 24 transfer probes after night 10, then an eleventh day with the memory-effects battery. Spend: not available in this checkout (cost.jsonl has no billable calls); the original sweep recorded 1991.17 USD list price on the Max plan over 20323 Opus calls (no money), 11.69 USD on OpenAI over 15733 judge calls.
 
 **Judges.** gpt-5.6-luna grades every answer, Opus 5.5 grades it again. They agree on 94 percent of 8,040 graded answers (512 disagreements). Numbers below are luna's unless marked.
 
-**The one number.** Final-day recall, structured noise at 20 percent minus faithful replay, mean over seeds: **-7 ± 7 points** (per seed: [-13, 0, -8]). Verdict: noisy arm lower, and the difference clears the seed spread.
+**Main result.** Final-day recall, structured noise at 20 percent minus faithful replay, mean over seeds: **-7 ± 7 points** (per seed: [-13, 0, -8]). Verdict: noisy arm lower, beyond one seed SD (exploratory, n=3). Random noise at 40 percent was close to faithful on overall recall (0 ± 2 points), but did not show a transfer advantage: far probes -17 ± 17 points and near-minus-far 6 ± 21 points.
 
-Novel tasks (multi-session questions), same difference: -12 ± 10 points, noisy arm lower, and the difference clears the seed spread. Far transfer probes, same difference: -8 ± 8 points, noisy arm lower, and the difference clears the seed spread. DRM critical-lure false alarms after sleep, same difference: 0 ± 0 points, no result, the difference is inside the seed spread.
+Novel tasks (multi-session questions), structured 20 percent: -12 ± 10 points, noisy arm lower, beyond one seed SD (exploratory, n=3). Far transfer probes, same arm: -8 ± 8 points, noisy arm lower, beyond one seed SD (exploratory, n=3). Near-minus-far transfer, same arm: 6 ± 13 points, inside the seed spread (exploratory, n=3). DRM critical-lure false alarms after sleep: 0 ± 0 points, inside the seed spread (exploratory, n=3); the lure false-alarm rate was 0 percent in every arm, so this comparison is at the floor.
 
-## Claim
+## Hypothesis under test
 
-An agent whose nightly replay is corrupted on purpose recalls as much on the last day as an agent with faithful replay, and does better on situations it has never seen (Hoel's overfitted brain hypothesis, tested on a text-memory LLM agent). v2 tests it at four corruption rates, with structured and random noise side by side, and with a transfer test built for it.
+Hoel's overfitted brain hypothesis predicts that noisy, dream-like replay should trade some fidelity for better generalization. v2 tests that prediction on a text-memory LLM agent at four corruption rates, with structured and random noise side by side, a transfer test built for it, and a day-eleven false-memory battery.
+
+## Outcome
+
+The strong prediction is not supported: far transfer was below faithful replay in 8 of 8 noisy arms (-17 to -8 points), and no noisy arm improved it beyond one seed SD. Near-minus-far was positive in 8 of 8 noisy arms (+3 to +11 points), so noisy replay lost more from near to far probes than faithful replay, where Hoel's account predicts less. On final recall the noisy arms ranged -17 to +2 points against faithful; only Random noise, 5 percent (2 ± 1 points) beat it beyond one seed SD. At 20 percent structured corruption, final recall was 69 ± 2 versus 76 ± 5 for faithful replay, a paired difference of -7 ± 7 points; novel multi-session questions changed by -12 ± 10 points and far transfer by -8 ± 8 points. Random noise at 40 percent stayed close to faithful on overall recall (76 ± 3 versus 76 ± 5; 0 ± 2 points) and on novel questions (2 ± 14 points), but far transfer changed by -17 ± 17 points. The day-eleven battery was near ceiling (DRM hits 81 to 100 percent, serial hits 93 to 100 percent, critical-lure false alarms 0 percent in every arm), so it cannot test a false-memory difference. With three seeds these comparisons are exploratory, not confirmatory.
 
 ## Method in brief
 
@@ -22,32 +26,32 @@ Ten arms share one model, one life per seed, one agent prompt and one question s
 
 ## Numbers, mean ± sd over three seeds (percent)
 
-| arm | evening (before sleep) | morning (after sleep) | one-night drop | final recall | final, days 1-5 | final, days 6-10 | final, novel (multi-session) | final, abstention | memory tokens, mean over nights |
+| arm | evening (before sleep) | morning (after sleep) | one-night drop | final recall | final, days 1-5 | final, days 6-10 | final, novel (multi-session) | final, abstention | memory tokens, mean nights 1-10 |
 |---|---|---|---|---|---|---|---|---|---|
-| No sleep (raw window at the cap) | 74 ± 1 | 48 ± 2 | 26 ± 1 | 14 ± 4 | 14 ± 5 | 15 ± 7 | 0 ± 0 | 96 ± 7 | 76,442 ± 25 |
-| Faithful replay | 94 ± 1 | 87 ± 1 | 8 ± 2 | 76 ± 5 | 76 ± 19 | 76 ± 4 | 71 ± 7 | 96 ± 4 | 72,176 ± 4,410 |
-| Structured noise, 5 percent | 91 ± 2 | 83 ± 2 | 8 ± 2 | 76 ± 5 | 78 ± 15 | 76 ± 5 | 67 ± 9 | 98 ± 4 | 71,232 ± 3,770 |
-| Structured noise, 10 percent | 90 ± 2 | 77 ± 3 | 13 ± 1 | 71 ± 2 | 67 ± 5 | 72 ± 6 | 61 ± 5 | 94 ± 6 | 74,815 ± 1,770 |
-| Structured noise, 20 percent | 88 ± 2 | 73 ± 5 | 16 ± 4 | 69 ± 2 | 71 ± 4 | 68 ± 6 | 59 ± 5 | 98 ± 4 | 74,551 ± 1,789 |
-| Structured noise, 40 percent | 87 ± 2 | 66 ± 1 | 21 ± 2 | 60 ± 4 | 64 ± 11 | 57 ± 6 | 45 ± 5 | 94 ± 6 | 69,872 ± 78 |
-| Random noise, 5 percent | 94 ± 3 | 84 ± 2 | 10 ± 5 | 78 ± 4 | 76 ± 18 | 78 ± 5 | 76 ± 3 | 92 ± 4 | 73,946 ± 2,591 |
-| Random noise, 10 percent | 94 ± 1 | 83 ± 1 | 10 ± 2 | 77 ± 5 | 76 ± 18 | 77 ± 3 | 74 ± 13 | 96 ± 4 | 73,996 ± 2,754 |
-| Random noise, 20 percent | 92 ± 4 | 78 ± 4 | 14 ± 1 | 70 ± 5 | 68 ± 6 | 71 ± 5 | 61 ± 17 | 96 ± 4 | 72,782 ± 3,560 |
-| Random noise, 40 percent | 91 ± 5 | 77 ± 4 | 14 ± 3 | 76 ± 3 | 76 ± 15 | 75 ± 3 | 73 ± 12 | 96 ± 7 | 70,584 ± 4,440 |
+| No sleep (raw window at the cap) | 74 ± 1 | 48 ± 2 | 26 ± 1 | 14 ± 4 | 14 ± 5 | 15 ± 7 | 0 ± 0 | 96 ± 7 | 72,276 ± 72 |
+| Faithful replay | 94 ± 1 | 87 ± 1 | 8 ± 2 | 76 ± 5 | 76 ± 19 | 76 ± 4 | 71 ± 7 | 96 ± 4 | 67,352 ± 4,880 |
+| Structured noise, 5 percent | 91 ± 2 | 83 ± 2 | 8 ± 2 | 76 ± 5 | 78 ± 15 | 76 ± 5 | 67 ± 9 | 98 ± 4 | 66,255 ± 4,149 |
+| Structured noise, 10 percent | 90 ± 2 | 77 ± 3 | 13 ± 1 | 71 ± 2 | 67 ± 5 | 72 ± 6 | 61 ± 5 | 94 ± 6 | 70,241 ± 1,962 |
+| Structured noise, 20 percent | 88 ± 2 | 73 ± 5 | 16 ± 4 | 69 ± 2 | 71 ± 4 | 68 ± 6 | 59 ± 5 | 98 ± 4 | 69,920 ± 2,025 |
+| Structured noise, 40 percent | 87 ± 2 | 66 ± 1 | 21 ± 2 | 60 ± 4 | 64 ± 11 | 57 ± 6 | 45 ± 5 | 94 ± 6 | 64,791 ± 257 |
+| Random noise, 5 percent | 94 ± 3 | 84 ± 2 | 10 ± 5 | 78 ± 4 | 76 ± 18 | 78 ± 5 | 76 ± 3 | 92 ± 4 | 69,307 ± 2,932 |
+| Random noise, 10 percent | 94 ± 1 | 83 ± 1 | 10 ± 2 | 77 ± 5 | 76 ± 18 | 77 ± 3 | 74 ± 13 | 96 ± 4 | 69,301 ± 3,166 |
+| Random noise, 20 percent | 92 ± 4 | 78 ± 4 | 14 ± 1 | 70 ± 5 | 68 ± 6 | 71 ± 5 | 61 ± 17 | 96 ± 4 | 68,001 ± 3,794 |
+| Random noise, 40 percent | 91 ± 5 | 77 ± 4 | 14 ± 3 | 76 ± 3 | 76 ± 15 | 75 ± 3 | 73 ± 12 | 96 ± 7 | 65,608 ± 4,855 |
 
 Paired differences against faithful replay, same seed (percentage points):
 
-| comparison | final recall | final, novel | one-night drop | abstention | transfer near | transfer far |
-|---|---|---|---|---|---|---|
-| No sleep (raw window at the cap) minus faithful | -62 ± 1 | -71 ± 7 | 18 ± 2 | 0 ± 6 | -56 ± 13 | -44 ± 13 |
-| Structured noise, 5 percent minus faithful | 0 ± 6 | -5 ± 16 | 1 ± 2 | 2 ± 4 | -6 ± 25 | -11 ± 5 |
-| Structured noise, 10 percent minus faithful | -6 ± 7 | -11 ± 3 | 6 ± 2 | -2 ± 4 | -6 ± 10 | -14 ± 10 |
-| Structured noise, 20 percent minus faithful | -7 ± 7 | -12 ± 10 | 8 ± 5 | 2 ± 4 | -3 ± 13 | -8 ± 8 |
-| Structured noise, 40 percent minus faithful | -17 ± 5 | -26 ± 11 | 13 ± 4 | -2 ± 4 | 0 ± 14 | -11 ± 5 |
-| Random noise, 5 percent minus faithful | 2 ± 1 | 5 ± 8 | 2 ± 4 | -4 ± 4 | -3 ± 5 | -11 ± 5 |
-| Random noise, 10 percent minus faithful | 1 ± 6 | 3 ± 16 | 3 ± 1 | 0 ± 6 | -3 ± 5 | -11 ± 13 |
-| Random noise, 20 percent minus faithful | -6 ± 7 | -11 ± 19 | 6 ± 2 | 0 ± 6 | -11 ± 25 | -14 ± 5 |
-| Random noise, 40 percent minus faithful | -0 ± 2 | 2 ± 14 | 7 ± 1 | 0 ± 6 | -11 ± 5 | -17 ± 17 |
+| comparison | final recall | final, novel | one-night drop | abstention | transfer near | transfer far | transfer near minus far |
+|---|---|---|---|---|---|---|---|
+| No sleep (raw window at the cap) minus faithful | -62 ± 1 | -71 ± 7 | 18 ± 2 | 0 ± 6 | -56 ± 13 | -44 ± 13 | -11 ± 5 |
+| Structured noise, 5 percent minus faithful | 0 ± 6 | -5 ± 16 | 1 ± 2 | 2 ± 4 | -6 ± 25 | -11 ± 5 | 6 ± 21 |
+| Structured noise, 10 percent minus faithful | -6 ± 7 | -11 ± 3 | 6 ± 2 | -2 ± 4 | -6 ± 10 | -14 ± 10 | 8 ± 17 |
+| Structured noise, 20 percent minus faithful | -7 ± 7 | -12 ± 10 | 8 ± 5 | 2 ± 4 | -3 ± 13 | -8 ± 8 | 6 ± 13 |
+| Structured noise, 40 percent minus faithful | -17 ± 5 | -26 ± 11 | 13 ± 4 | -2 ± 4 | 0 ± 14 | -11 ± 5 | 11 ± 13 |
+| Random noise, 5 percent minus faithful | 2 ± 1 | 5 ± 8 | 2 ± 4 | -4 ± 4 | -3 ± 5 | -11 ± 5 | 8 ± 0 |
+| Random noise, 10 percent minus faithful | 1 ± 6 | 3 ± 16 | 3 ± 1 | 0 ± 6 | -3 ± 5 | -11 ± 13 | 8 ± 8 |
+| Random noise, 20 percent minus faithful | -6 ± 7 | -11 ± 19 | 6 ± 2 | 0 ± 6 | -11 ± 25 | -14 ± 5 | 3 ± 27 |
+| Random noise, 40 percent minus faithful | 0 ± 2 | 2 ± 14 | 7 ± 1 | 0 ± 6 | -11 ± 5 | -17 ± 17 | 6 ± 21 |
 
 ## Corruption-rate curve
 
@@ -80,11 +84,11 @@ Final-day recall of questions whose last evidence was N nights before the final 
 
 ## Transfer test
 
-Share of the 12 hidden rules the agent followed on a probe after night 10 (percent, mean ± sd over seeds). Near probes resemble the planted episodes; far probes apply the rule in a different kind of request. Hoel predicts the noisy arms lose less from near to far.
+Share of the 12 hidden rules the agent followed on a probe after night 10 (percent, mean ± sd over seeds). Near probes resemble the planted episodes; far probes apply the rule in a different kind of request. Hoel's account predicts the noisy arms lose less from near to far; the near-minus-far column is that comparison.
 
 | arm | near (luna) | far (luna) | near minus far | near (Opus) | far (Opus) | rules with 2 episodes | rules with 3 episodes |
 |---|---|---|---|---|---|---|---|
-| No sleep (raw window at the cap) | 8 ± 8 | 8 ± 14 | -0 ± 17 | 6 ± 5 | 11 ± 13 | 14 ± 13 | 3 ± 5 |
+| No sleep (raw window at the cap) | 8 ± 8 | 8 ± 14 | 0 ± 17 | 6 ± 5 | 11 ± 13 | 14 ± 13 | 3 ± 5 |
 | Faithful replay | 64 ± 21 | 53 ± 17 | 11 ± 13 | 69 ± 13 | 50 ± 25 | 58 ± 22 | 58 ± 14 |
 | Structured noise, 5 percent | 58 ± 8 | 42 ± 17 | 17 ± 14 | 58 ± 0 | 42 ± 30 | 58 ± 8 | 42 ± 14 |
 | Structured noise, 10 percent | 58 ± 14 | 39 ± 27 | 19 ± 13 | 53 ± 13 | 36 ± 21 | 47 ± 19 | 50 ± 22 |
@@ -99,20 +103,20 @@ Each rule passed an empty-memory check before the sweep: an agent with no memory
 
 ## Memory size and forgetting per arm
 
-Memory tokens are the agent-facing text after a night, counted with Claude's tokenizer. Stripping and deletion are the harness's forgetting when the sleep step wrote more than the cap allows: details go from the lowest-scored items first, the last one cut at a sentence boundary (partial), and whole items go only when every item is down to its gist. Totals over ten nights, mean ± sd over seeds.
+Memory tokens are the agent-facing text after a night, counted with Claude's tokenizer. Stripping and deletion are the harness's forgetting when the sleep step wrote more than the cap allows: details go from the lowest-scored items first, the last one cut at a sentence boundary (partial), and whole items go only when every item is down to its gist. Means cover nights 1-10; the day-11 battery night is reported separately in summary_v2.json. For this original sweep, the stripping/deletion, nights-over-cap and sleep output/seconds totals still cover eleven nights because the saved per-run summaries did not split out the day-11 consolidation.
 
-| arm | memory tokens, mean over nights | memory as share of cap | tokens after night 10 | items after night 10 | details stripped | of which partial | items deleted | nights over cap | turns corrupted | sleep output tokens per night | sleep seconds per night |
+| arm | memory tokens, mean nights 1-10 | memory as share of cap | tokens after night 10 | items after night 10 | details stripped | of which partial | items deleted | nights over cap | turns corrupted | sleep output tokens per night | sleep seconds per night |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| No sleep (raw window at the cap) | 76,442 ± 25 | 98 ± 0 | 116,176 ± 447 | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a |
-| Faithful replay | 72,176 ± 4,410 | 87 ± 8 | 116,972 ± 26 | 163 ± 22 | 52 ± 26 | 4 ± 3 | 0 ± 0 | 5 ± 4 | n/a | 28,336 ± 3,173 | 264 ± 24 |
-| Structured noise, 5 percent | 71,232 ± 3,770 | 84 ± 7 | 116,869 ± 132 | 199 ± 27 | 55 ± 34 | 4 ± 2 | 0 ± 0 | 5 ± 2 | 182 ± 1 | 28,221 ± 1,671 | 256 ± 17 |
-| Structured noise, 10 percent | 74,815 ± 1,770 | 92 ± 5 | 116,734 ± 313 | 188 ± 22 | 68 ± 34 | 5 ± 1 | 0 ± 0 | 5 ± 1 | 363 ± 1 | 28,847 ± 966 | 268 ± 10 |
-| Structured noise, 20 percent | 74,551 ± 1,789 | 91 ± 4 | 116,981 ± 8 | 185 ± 13 | 56 ± 40 | 5 ± 2 | 0 ± 0 | 5 ± 2 | 724 ± 2 | 28,277 ± 3,662 | 262 ± 36 |
-| Structured noise, 40 percent | 69,872 ± 78 | 83 ± 1 | 116,988 ± 10 | 219 ± 24 | 32 ± 12 | 2 ± 1 | 0 ± 0 | 2 ± 1 | 1,450 ± 2 | 27,283 ± 4,637 | 250 ± 33 |
-| Random noise, 5 percent | 73,946 ± 2,591 | 90 ± 6 | 116,978 ± 11 | 204 ± 11 | 69 ± 24 | 5 ± 3 | 0 ± 0 | 6 ± 2 | 182 ± 1 | 27,231 ± 2,172 | 264 ± 15 |
-| Random noise, 10 percent | 73,996 ± 2,754 | 90 ± 7 | 116,966 ± 27 | 195 ± 4 | 74 ± 12 | 5 ± 2 | 0 ± 0 | 6 ± 1 | 363 ± 1 | 29,509 ± 1,466 | 279 ± 3 |
-| Random noise, 20 percent | 72,782 ± 3,560 | 88 ± 8 | 116,989 ± 12 | 198 ± 40 | 67 ± 29 | 5 ± 2 | 0 ± 0 | 5 ± 3 | 724 ± 2 | 28,545 ± 3,840 | 269 ± 48 |
-| Random noise, 40 percent | 70,584 ± 4,440 | 84 ± 7 | 116,963 ± 30 | 207 ± 24 | 55 ± 17 | 4 ± 2 | 0 ± 0 | 4 ± 1 | 1,450 ± 2 | 24,343 ± 1,962 | 229 ± 18 |
+| No sleep (raw window at the cap) | 72,276 ± 72 | 99 ± 0 | 116,176 ± 447 | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a |
+| Faithful replay | 67,352 ± 4,880 | 86 ± 9 | 116,972 ± 26 | 163 ± 22 | 52 ± 26 | 4 ± 3 | 0 ± 0 | 5 ± 4 | n/a | 28,336 ± 3,173 | 264 ± 24 |
+| Structured noise, 5 percent | 66,255 ± 4,149 | 83 ± 8 | 116,869 ± 132 | 199 ± 27 | 55 ± 34 | 4 ± 2 | 0 ± 0 | 5 ± 2 | 182 ± 1 | 28,221 ± 1,671 | 256 ± 17 |
+| Structured noise, 10 percent | 70,241 ± 1,962 | 91 ± 5 | 116,734 ± 313 | 188 ± 22 | 68 ± 34 | 5 ± 1 | 0 ± 0 | 5 ± 1 | 363 ± 1 | 28,847 ± 966 | 268 ± 10 |
+| Structured noise, 20 percent | 69,920 ± 2,025 | 90 ± 4 | 116,981 ± 8 | 185 ± 13 | 56 ± 40 | 5 ± 2 | 0 ± 0 | 5 ± 2 | 724 ± 2 | 28,277 ± 3,662 | 262 ± 36 |
+| Structured noise, 40 percent | 64,791 ± 257 | 81 ± 2 | 116,988 ± 10 | 219 ± 24 | 32 ± 12 | 2 ± 1 | 0 ± 0 | 2 ± 1 | 1,450 ± 2 | 27,283 ± 4,637 | 250 ± 33 |
+| Random noise, 5 percent | 69,307 ± 2,932 | 89 ± 7 | 116,978 ± 11 | 204 ± 11 | 69 ± 24 | 5 ± 3 | 0 ± 0 | 6 ± 2 | 182 ± 1 | 27,231 ± 2,172 | 264 ± 15 |
+| Random noise, 10 percent | 69,301 ± 3,166 | 89 ± 8 | 116,966 ± 27 | 195 ± 4 | 74 ± 12 | 5 ± 2 | 0 ± 0 | 6 ± 1 | 363 ± 1 | 29,509 ± 1,466 | 279 ± 3 |
+| Random noise, 20 percent | 68,001 ± 3,794 | 87 ± 8 | 116,989 ± 12 | 198 ± 40 | 67 ± 29 | 5 ± 2 | 0 ± 0 | 5 ± 3 | 724 ± 2 | 28,545 ± 3,840 | 269 ± 48 |
+| Random noise, 40 percent | 65,608 ± 4,855 | 83 ± 8 | 116,963 ± 30 | 207 ± 24 | 55 ± 17 | 4 ± 2 | 0 ± 0 | 4 ± 1 | 1,450 ± 2 | 24,343 ± 1,962 | 229 ± 18 |
 
 Memory tokens after each night, mean over seeds, with the cap:
 
@@ -146,6 +150,8 @@ Memory tokens after each night, mean over seeds, with the cap:
 
 Same tests in the evening, with the study lists still in context, are in summary_v2.json under battery_evening. The DRM lists are new ones built from the USF free-association norms, because Opus recognised the classic lists in v1. Human reference points: Roediger and McDermott 1995 found people false-recognise the critical lure at about the same rate as studied words (0.98 to 1.11 of the hit rate, Tables 1 and 2); Cao, Schooler and Zafarani 2025 report 0.11 for GPT-4 with a hit rate of 1.
 
+The battery is near ceiling: DRM hits are 81 to 100 percent, serial hits 93 to 100 percent, person-location fan-1 accuracy 99 to 100 percent, and critical-lure false alarms are 0 percent in every arm. It therefore cannot discriminate the arms or test the false-memory prediction.
+
 ## Housekeeping
 
 Refusals: 0. Judge agreement per arm (luna against Opus): No sleep (raw window at the cap) 97 ± 1, Faithful replay 92 ± 4, Structured noise, 5 percent 94 ± 3, Structured noise, 10 percent 94 ± 2, Structured noise, 20 percent 92 ± 3, Structured noise, 40 percent 91 ± 3, Random noise, 5 percent 94 ± 3, Random noise, 10 percent 94 ± 1, Random noise, 20 percent 95 ± 4, Random noise, 40 percent 93 ± 1. Every request and response is in logs/calls/ as JSON; every call's tokens are in cost.jsonl; each run's memory after each night is in results/runs_v2/<arm>_s<seed>/memory_night<d>.txt and .json (items with ids and scores); every corruption (turn index, kind, before, after) and every transfer probe reply is in that run's state.json. Transfer rules, episodes and probes per seed are in data/transfer_v2/transfer_s<seed>.json.
@@ -156,5 +162,7 @@ Refusals: 0. Judge agreement per arm (luna against Opus): No sleep (raw window a
 - Whether the result holds when knowledge lives in weights rather than in a text memory.
 - Whether it holds past one model (claude-opus-5-5) or one cap curve (15 percent of each day, decaying with age).
 - Absolute accuracy is not comparable with published LongMemEval numbers: days are stitched from several users' histories, temporal-reasoning questions are excluded, and the judge is gpt-5.6-luna rather than gpt-4o.
-- Three seeds. A difference smaller than the seed spread is no result. Recall rests on 100 questions per life, transfer on 24 probes per life.
+- Three seeds. Treat every arm comparison as exploratory rather than a confirmatory test; a difference inside one seed SD is not evidence of a difference. Recall rests on 100 questions per life, transfer on 24 probes per life.
+- The day-eleven battery is at ceiling on hits and at the floor on critical-lure false alarms, so it cannot show a false-memory effect. The battery night also uses each arm's own night step, so noisy arms corrupt the battery study material as well as their daily memories; a future battery should give every arm identical study material. A harder incidental-encoding battery is needed.
+- The original per-run summaries did not separate the day-11 consolidation from the ten-day memory totals; mean memory and fill are corrected here, but the stripping/deletion, nights-over-cap and sleep-time totals still include that night.
 - The Letta replication check ran after the sweep, results in results/letta_check/summary.md.

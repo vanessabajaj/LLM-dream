@@ -37,7 +37,7 @@
    "judge_agreement": 0.9477611940298507,
    "judge_disagreements": 14,
    "judge_graded": 268,
-   "nights": 11,
+   "nights": 10,
    "memory_tokens_by_night": [
     9083,
     21238,
@@ -48,8 +48,7 @@
     90972,
     100075,
     108543,
-    116946,
-    119095
+    116946
    ],
    "cap_by_night": [
     19500,
@@ -61,8 +60,7 @@
     91000,
     100100,
     108550,
-    117000,
-    124500
+    117000
    ],
    "memory_fill_by_night": [
     0.4657948717948718,
@@ -74,11 +72,10 @@
     0.9996923076923077,
     0.9997502497502497,
     0.9999355135882082,
-    0.9995384615384615,
-    0.9565863453815261
+    0.9995384615384615
    ],
-   "mean_memory_tokens": 73107.18181818182,
-   "mean_memory_fill": 0.8740184393616958,
+   "mean_memory_tokens": 68508.4,
+   "mean_memory_fill": 0.8657616487597127,
    "final_memory_tokens": 116946,
    "details_stripped": 62,
    "details_partial": 5,
@@ -125,7 +122,15 @@
     "serial_foil_fa": 0.0,
     "pl_fan1_acc": 1.0,
     "pl_fan2_acc": 1.0
-   }
+   },
+   "battery_night": {
+    "day": 10,
+    "tokens": 119095,
+    "cap": 124500,
+    "details_stripped": null,
+    "items_deleted": null
+   },
+   "legacy_includes_battery_totals": true
   },
   "faithful_s1": {
    "arm": "faithful",
@@ -164,7 +169,7 @@
    "judge_agreement": 0.9477611940298507,
    "judge_disagreements": 14,
    "judge_graded": 268,
-   "nights": 11,
+   "nights": 10,
    "memory_tokens_by_night": [
     12254,
     26870,
@@ -175,8 +180,7 @@
     90982,
     99999,
     108532,
-    116998,
-    121009
+    116998
    ],
    "cap_by_night": [
     19500,
@@ -188,8 +192,7 @@
     91000,
     100100,
     108550,
-    117000,
-    124500
+    117000
    ],
    "memory_fill_by_night": [
     0.6284102564102564,
@@ -201,11 +204,10 @@
     0.9998021978021978,
     0.998991008991009,
     0.9998341777982497,
-    0.999982905982906,
-    0.9719598393574297
+    0.999982905982906
    ],
-   "mean_memory_tokens": 76045.63636363637,
-   "mean_memory_fill": 0.9420411201011428,
+   "mean_memory_tokens": 71549.3,
+   "mean_memory_fill": 0.9390492481755142,
    "final_memory_tokens": 116998,
    "details_stripped": 72,
    "details_partial": 7,
@@ -252,7 +254,15 @@
     "serial_foil_fa": 0.0,
     "pl_fan1_acc": 1.0,
     "pl_fan2_acc": 1.0
-   }
+   },
+   "battery_night": {
+    "day": 10,
+    "tokens": 121009,
+    "cap": 124500,
+    "details_stripped": null,
+    "items_deleted": null
+   },
+   "legacy_includes_battery_totals": true
   },
   "faithful_s2": {
    "arm": "faithful",
@@ -291,7 +301,7 @@
    "judge_agreement": 0.8768656716417911,
    "judge_disagreements": 33,
    "judge_graded": 268,
-   "nights": 11,
+   "nights": 10,
    "memory_tokens_by_night": [
     6752,
     17823,
@@ -302,8 +312,7 @@
     77639,
     91835,
     106743,
-    116971,
-    121155
+    116971
    ],
    "cap_by_night": [
     19500,
@@ -315,8 +324,7 @@
     91000,
     100100,
     108550,
-    117000,
-    124500
+    117000
    ],
    "memory_fill_by_night": [
     0.34625641025641024,
@@ -328,11 +336,10 @@
     0.8531758241758242,
     0.9174325674325674,
     0.9833532934131737,
-    0.9997521367521367,
-    0.973132530120482
+    0.9997521367521367
    ],
-   "mean_memory_tokens": 67375.18181818182,
-   "mean_memory_fill": 0.7874480363122969,
+   "mean_memory_tokens": 61997.2,
+   "mean_memory_fill": 0.7688795869314784,
    "final_memory_tokens": 116971,
    "details_stripped": 22,
    "details_partial": 1,
@@ -379,7 +386,15 @@
     "serial_foil_fa": 0.0,
     "pl_fan1_acc": 1.0,
     "pl_fan2_acc": 1.0
-   }
+   },
+   "battery_night": {
+    "day": 10,
+    "tokens": 121155,
+    "cap": 124500,
+    "details_stripped": null,
+    "items_deleted": null
+   },
+   "legacy_includes_battery_totals": true
   },
   "nosleep_s0": {
    "arm": "nosleep",
@@ -418,7 +433,7 @@
    "judge_agreement": 0.9701492537313433,
    "judge_disagreements": 8,
    "judge_graded": 268,
-   "nights": 11,
+   "nights": 10,
    "memory_tokens_by_night": [
     19478,
     34364,
@@ -429,8 +444,7 @@
     90439,
     99989,
     107791,
-    115995,
-    117930
+    115995
    ],
    "cap_by_night": [
     19500,
@@ -442,8 +456,7 @@
     91000,
     100100,
     108550,
-    117000,
-    124500
+    117000
    ],
    "memory_fill_by_night": [
     0.9988717948717949,
@@ -455,11 +468,10 @@
     0.9938351648351649,
     0.9988911088911089,
     0.9930078304928605,
-    0.9914102564102564,
-    0.9472289156626506
+    0.9914102564102564
    ],
-   "mean_memory_tokens": 76452.72727272728,
-   "mean_memory_fill": 0.9846301584693703,
+   "mean_memory_tokens": 72305,
+   "mean_memory_fill": 0.9883702827500422,
    "final_memory_tokens": 115995,
    "details_stripped": null,
    "details_partial": null,
@@ -506,7 +518,15 @@
     "serial_foil_fa": 0.0,
     "pl_fan1_acc": 1.0,
     "pl_fan2_acc": 1.0
-   }
+   },
+   "battery_night": {
+    "day": 10,
+    "tokens": 117930,
+    "cap": 124500,
+    "details_stripped": null,
+    "items_deleted": null
+   },
+   "legacy_includes_battery_totals": true
   },
   "nosleep_s1": {
    "arm": "nosleep",
@@ -545,7 +565,7 @@
    "judge_agreement": 0.9850746268656716,
    "judge_disagreements": 4,
    "judge_graded": 268,
-   "nights": 11,
+   "nights": 10,
    "memory_tokens_by_night": [
     18016,
     33869,
@@ -556,8 +576,7 @@
     90292,
     98603,
     107789,
-    116686,
-    118621
+    116686
    ],
    "cap_by_night": [
     19500,
@@ -569,8 +588,7 @@
     91000,
     100100,
     108550,
-    117000,
-    124500
+    117000
    ],
    "memory_fill_by_night": [
     0.9238974358974359,
@@ -582,11 +600,10 @@
     0.9922197802197802,
     0.985044955044955,
     0.992989405803777,
-    0.9973162393162394,
-    0.9527791164658634
+    0.9973162393162394
    ],
-   "mean_memory_tokens": 76414.09090909091,
-   "mean_memory_fill": 0.9778091275081167,
+   "mean_memory_tokens": 72193.4,
+   "mean_memory_fill": 0.980312128612342,
    "final_memory_tokens": 116686,
    "details_stripped": null,
    "details_partial": null,
@@ -633,7 +650,15 @@
     "serial_foil_fa": 0.0,
     "pl_fan1_acc": 1.0,
     "pl_fan2_acc": 1.0
-   }
+   },
+   "battery_night": {
+    "day": 10,
+    "tokens": 118621,
+    "cap": 124500,
+    "details_stripped": null,
+    "items_deleted": null
+   },
+   "legacy_includes_battery_totals": true
   },
   "nosleep_s2": {
    "arm": "nosleep",
@@ -672,7 +697,7 @@
    "judge_agreement": 0.9664179104477612,
    "judge_disagreements": 9,
    "judge_graded": 268,
-   "nights": 11,
+   "nights": 10,
    "memory_tokens_by_night": [
     19297,
     34080,
@@ -683,8 +708,7 @@
     89375,
     99734,
     107747,
-    115848,
-    117783
+    115848
    ],
    "cap_by_night": [
     19500,
@@ -696,8 +720,7 @@
     91000,
     100100,
     108550,
-    117000,
-    124500
+    117000
    ],
    "memory_fill_by_night": [
     0.9895897435897436,
@@ -709,11 +732,10 @@
     0.9821428571428571,
     0.9963436563436563,
     0.9926024873330263,
-    0.9901538461538462,
-    0.9460481927710843
+    0.9901538461538462
    ],
-   "mean_memory_tokens": 76460.36363636363,
-   "mean_memory_fill": 0.9833651694490346,
+   "mean_memory_tokens": 72328.1,
+   "mean_memory_fill": 0.9870968671168296,
    "final_memory_tokens": 115848,
    "details_stripped": null,
    "details_partial": null,
@@ -760,7 +782,15 @@
     "serial_foil_fa": 0.0,
     "pl_fan1_acc": 1.0,
     "pl_fan2_acc": 1.0
-   }
+   },
+   "battery_night": {
+    "day": 10,
+    "tokens": 117783,
+    "cap": 124500,
+    "details_stripped": null,
+    "items_deleted": null
+   },
+   "legacy_includes_battery_totals": true
   },
   "random_05_s0": {
    "arm": "random_05",
@@ -799,7 +829,7 @@
    "judge_agreement": 0.9402985074626866,
    "judge_disagreements": 16,
    "judge_graded": 268,
-   "nights": 11,
+   "nights": 10,
    "memory_tokens_by_night": [
     9709,
     19035,
@@ -810,8 +840,7 @@
     90997,
     100009,
     108508,
-    116970,
-    121094
+    116970
    ],
    "cap_by_night": [
     19500,
@@ -823,8 +852,7 @@
     91000,
     100100,
     108550,
-    117000,
-    124500
+    117000
    ],
    "memory_fill_by_night": [
     0.4978974358974359,
@@ -836,11 +864,10 @@
     0.9999670329670329,
     0.9990909090909091,
     0.9996130815292492,
-    0.9997435897435898,
-    0.9726425702811246
+    0.9997435897435898
    ],
-   "mean_memory_tokens": 71340.18181818182,
-   "mean_memory_fill": 0.8427458065972353,
+   "mean_memory_tokens": 66364.8,
+   "mean_memory_fill": 0.8297561302288463,
    "final_memory_tokens": 116970,
    "details_stripped": 62,
    "details_partial": 3,
@@ -887,7 +914,15 @@
     "serial_foil_fa": 0.0,
     "pl_fan1_acc": 1.0,
     "pl_fan2_acc": 1.0
-   }
+   },
+   "battery_night": {
+    "day": 10,
+    "tokens": 121094,
+    "cap": 124500,
+    "details_stripped": null,
+    "items_deleted": null
+   },
+   "legacy_includes_battery_totals": true
   },
   "random_05_s1": {
    "arm": "random_05",
@@ -926,7 +961,7 @@
    "judge_agreement": 0.9589552238805971,
    "judge_disagreements": 11,
    "judge_graded": 268,
-   "nights": 11,
+   "nights": 10,
    "memory_tokens_by_night": [
     15797,
     30189,
@@ -937,8 +972,7 @@
     90994,
     100061,
     108476,
-    116991,
-    119470
+    116991
    ],
    "cap_by_night": [
     19500,
@@ -950,8 +984,7 @@
     91000,
     100100,
     108550,
-    117000,
-    124500
+    117000
    ],
    "memory_fill_by_night": [
     0.8101025641025641,
@@ -963,11 +996,10 @@
     0.999934065934066,
     0.9996103896103896,
     0.9993182865039153,
-    0.9999230769230769,
-    0.9595983935742972
+    0.9999230769230769
    ],
-   "mean_memory_tokens": 76522.63636363637,
-   "mean_memory_fill": 0.96591372759804,
+   "mean_memory_tokens": 72227.9,
+   "mean_memory_fill": 0.9665452610004143,
    "final_memory_tokens": 116991,
    "details_stripped": 95,
    "details_partial": 8,
@@ -1014,7 +1046,15 @@
     "serial_foil_fa": 0.0,
     "pl_fan1_acc": 1.0,
     "pl_fan2_acc": 1.0
-   }
+   },
+   "battery_night": {
+    "day": 10,
+    "tokens": 119470,
+    "cap": 124500,
+    "details_stripped": null,
+    "items_deleted": null
+   },
+   "legacy_includes_battery_totals": true
   },
   "random_05_s2": {
    "arm": "random_05",
@@ -1053,7 +1093,7 @@
    "judge_agreement": 0.9067164179104478,
    "judge_disagreements": 25,
    "judge_graded": 268,
-   "nights": 11,
+   "nights": 10,
    "memory_tokens_by_night": [
     8286,
     20614,
@@ -1064,8 +1104,7 @@
     90847,
     100077,
     108520,
-    116974,
-    120426
+    116974
    ],
    "cap_by_night": [
     19500,
@@ -1077,8 +1116,7 @@
     91000,
     100100,
     108550,
-    117000,
-    124500
+    117000
    ],
    "memory_fill_by_night": [
     0.4249230769230769,
@@ -1090,11 +1128,10 @@
     0.9983186813186813,
     0.9997702297702298,
     0.9997236296637494,
-    0.9997777777777778,
-    0.9672771084337349
+    0.9997777777777778
    ],
-   "mean_memory_tokens": 73974.18181818182,
-   "mean_memory_fill": 0.8869017612117494,
+   "mean_memory_tokens": 69329,
+   "mean_memory_fill": 0.8788642264895508,
    "final_memory_tokens": 116974,
    "details_stripped": 49,
    "details_partial": 5,
@@ -1141,7 +1178,15 @@
     "serial_foil_fa": 0.0,
     "pl_fan1_acc": 1.0,
     "pl_fan2_acc": 1.0
-   }
+   },
+   "battery_night": {
+    "day": 10,
+    "tokens": 120426,
+    "cap": 124500,
+    "details_stripped": null,
+    "items_deleted": null
+   },
+   "legacy_includes_battery_totals": true
   },
   "random_10_s0": {
    "arm": "random_10",
@@ -1180,7 +1225,7 @@
    "judge_agreement": 0.9440298507462687,
    "judge_disagreements": 15,
    "judge_graded": 268,
-   "nights": 11,
+   "nights": 10,
    "memory_tokens_by_night": [
     9384,
     23496,
@@ -1191,8 +1236,7 @@
     90995,
     100083,
     108529,
-    116936,
-    120758
+    116936
    ],
    "cap_by_night": [
     19500,
@@ -1204,8 +1248,7 @@
     91000,
     100100,
     108550,
-    117000,
-    124500
+    117000
    ],
    "memory_fill_by_night": [
     0.48123076923076924,
@@ -1217,11 +1260,10 @@
     0.9999450549450549,
     0.9998301698301698,
     0.9998065407646246,
-    0.9994529914529915,
-    0.9699437751004016
+    0.9994529914529915
    ],
-   "mean_memory_tokens": 74712.18181818182,
-   "mean_memory_fill": 0.9042544404339777,
+   "mean_memory_tokens": 70107.6,
+   "mean_memory_fill": 0.8976855069673353,
    "final_memory_tokens": 116936,
    "details_stripped": 67,
    "details_partial": 7,
@@ -1268,7 +1310,15 @@
     "serial_foil_fa": 0.0,
     "pl_fan1_acc": 1.0,
     "pl_fan2_acc": 1.0
-   }
+   },
+   "battery_night": {
+    "day": 10,
+    "tokens": 120758,
+    "cap": 124500,
+    "details_stripped": null,
+    "items_deleted": null
+   },
+   "legacy_includes_battery_totals": true
   },
   "random_10_s1": {
    "arm": "random_10",
@@ -1307,7 +1357,7 @@
    "judge_agreement": 0.9477611940298507,
    "judge_disagreements": 14,
    "judge_graded": 268,
-   "nights": 11,
+   "nights": 10,
    "memory_tokens_by_night": [
     14579,
     29570,
@@ -1318,8 +1368,7 @@
     90319,
     100064,
     108544,
-    116987,
-    119678
+    116987
    ],
    "cap_by_night": [
     19500,
@@ -1331,8 +1380,7 @@
     91000,
     100100,
     108550,
-    117000,
-    124500
+    117000
    ],
    "memory_fill_by_night": [
     0.7476410256410256,
@@ -1344,11 +1392,10 @@
     0.9925164835164835,
     0.9996403596403597,
     0.9999447259327499,
-    0.9998888888888889,
-    0.9612690763052208
+    0.9998888888888889
    ],
-   "mean_memory_tokens": 76321.81818181818,
-   "mean_memory_fill": 0.9582136601029254,
+   "mean_memory_tokens": 71986.2,
+   "mean_memory_fill": 0.9579081184826959,
    "final_memory_tokens": 116987,
    "details_stripped": 67,
    "details_partial": 5,
@@ -1395,7 +1442,15 @@
     "serial_foil_fa": 0.0,
     "pl_fan1_acc": 1.0,
     "pl_fan2_acc": 1.0
-   }
+   },
+   "battery_night": {
+    "day": 10,
+    "tokens": 119678,
+    "cap": 124500,
+    "details_stripped": null,
+    "items_deleted": null
+   },
+   "legacy_includes_battery_totals": true
   },
   "random_10_s2": {
    "arm": "random_10",
@@ -1434,7 +1489,7 @@
    "judge_agreement": 0.9216417910447762,
    "judge_disagreements": 21,
    "judge_graded": 268,
-   "nights": 11,
+   "nights": 10,
    "memory_tokens_by_night": [
     6174,
     17952,
@@ -1445,8 +1500,7 @@
     90967,
     100052,
     108505,
-    116976,
-    122405
+    116976
    ],
    "cap_by_night": [
     19500,
@@ -1458,8 +1512,7 @@
     91000,
     100100,
     108550,
-    117000,
-    124500
+    117000
    ],
    "memory_fill_by_night": [
     0.31661538461538463,
@@ -1471,11 +1524,10 @@
     0.9996373626373627,
     0.9995204795204795,
     0.9995854444956241,
-    0.9997948717948718,
-    0.9831726907630522
+    0.9997948717948718
    ],
-   "mean_memory_tokens": 70954.45454545454,
-   "mean_memory_fill": 0.8227909652399051,
+   "mean_memory_tokens": 65809.4,
+   "mean_memory_fill": 0.8067527926875905,
    "final_memory_tokens": 116976,
    "details_stripped": 88,
    "details_partial": 4,
@@ -1522,7 +1574,15 @@
     "serial_foil_fa": 0.0,
     "pl_fan1_acc": 1.0,
     "pl_fan2_acc": 1.0
-   }
+   },
+   "battery_night": {
+    "day": 10,
+    "tokens": 122405,
+    "cap": 124500,
+    "details_stripped": null,
+    "items_deleted": null
+   },
+   "legacy_includes_battery_totals": true
   },
   "random_20_s0": {
    "arm": "random_20",
@@ -1561,7 +1621,7 @@
    "judge_agreement": 0.9477611940298507,
    "judge_disagreements": 14,
    "judge_graded": 268,
-   "nights": 11,
+   "nights": 10,
    "memory_tokens_by_night": [
     9103,
     18668,
@@ -1572,8 +1632,7 @@
     90979,
     100082,
     108502,
-    116975,
-    120726
+    116975
    ],
    "cap_by_night": [
     19500,
@@ -1585,8 +1644,7 @@
     91000,
     100100,
     108550,
-    117000,
-    124500
+    117000
    ],
    "memory_fill_by_night": [
     0.46682051282051285,
@@ -1598,11 +1656,10 @@
     0.9997692307692307,
     0.9998201798201798,
     0.9995578074619991,
-    0.9997863247863248,
-    0.9696867469879518
+    0.9997863247863248
    ],
-   "mean_memory_tokens": 69928.27272727272,
-   "mean_memory_fill": 0.8207678744792676,
+   "mean_memory_tokens": 64848.5,
+   "mean_memory_fill": 0.8058759872283991,
    "final_memory_tokens": 116975,
    "details_stripped": 56,
    "details_partial": 4,
@@ -1649,7 +1706,15 @@
     "serial_foil_fa": 0.0,
     "pl_fan1_acc": 1.0,
     "pl_fan2_acc": 1.0
-   }
+   },
+   "battery_night": {
+    "day": 10,
+    "tokens": 120726,
+    "cap": 124500,
+    "details_stripped": null,
+    "items_deleted": null
+   },
+   "legacy_includes_battery_totals": true
   },
   "random_20_s1": {
    "arm": "random_20",
@@ -1688,7 +1753,7 @@
    "judge_agreement": 0.9888059701492538,
    "judge_disagreements": 3,
    "judge_graded": 268,
-   "nights": 11,
+   "nights": 10,
    "memory_tokens_by_night": [
     13590,
     32127,
@@ -1699,8 +1764,7 @@
     90937,
     100060,
     108536,
-    116998,
-    122368
+    116998
    ],
    "cap_by_night": [
     19500,
@@ -1712,8 +1776,7 @@
     91000,
     100100,
     108550,
-    117000,
-    124500
+    117000
    ],
    "memory_fill_by_night": [
     0.696923076923077,
@@ -1725,11 +1788,10 @@
     0.9993076923076923,
     0.9996003996003996,
     0.9998710271764164,
-    0.999982905982906,
-    0.9828755020080321
+    0.999982905982906
    ],
-   "mean_memory_tokens": 76771.63636363637,
-   "mean_memory_fill": 0.9628885763435491,
+   "mean_memory_tokens": 72212,
+   "mean_memory_fill": 0.9608898837771008,
    "final_memory_tokens": 116998,
    "details_stripped": 99,
    "details_partial": 8,
@@ -1776,7 +1838,15 @@
     "serial_foil_fa": 0.0,
     "pl_fan1_acc": 1.0,
     "pl_fan2_acc": 1.0
-   }
+   },
+   "battery_night": {
+    "day": 10,
+    "tokens": 122368,
+    "cap": 124500,
+    "details_stripped": null,
+    "items_deleted": null
+   },
+   "legacy_includes_battery_totals": true
   },
   "random_20_s2": {
    "arm": "random_20",
@@ -1815,7 +1885,7 @@
    "judge_agreement": 0.917910447761194,
    "judge_disagreements": 22,
    "judge_graded": 268,
-   "nights": 11,
+   "nights": 10,
    "memory_tokens_by_night": [
     8530,
     18436,
@@ -1826,8 +1896,7 @@
     90952,
     100079,
     108546,
-    116994,
-    118688
+    116994
    ],
    "cap_by_night": [
     19500,
@@ -1839,8 +1908,7 @@
     91000,
     100100,
     108550,
-    117000,
-    124500
+    117000
    ],
    "memory_fill_by_night": [
     0.43743589743589745,
@@ -1852,11 +1920,10 @@
     0.9994725274725275,
     0.9997902097902098,
     0.9999631506218333,
-    0.999948717948718,
-    0.9533172690763052
+    0.999948717948718
    ],
-   "mean_memory_tokens": 71646.45454545454,
-   "mean_memory_fill": 0.8448078881825287,
+   "mean_memory_tokens": 66942.3,
+   "mean_memory_fill": 0.8339569500931511,
    "final_memory_tokens": 116994,
    "details_stripped": 45,
    "details_partial": 4,
@@ -1903,7 +1970,15 @@
     "serial_foil_fa": null,
     "pl_fan1_acc": null,
     "pl_fan2_acc": null
-   }
+   },
+   "battery_night": {
+    "day": 10,
+    "tokens": 118688,
+    "cap": 124500,
+    "details_stripped": null,
+    "items_deleted": null
+   },
+   "legacy_includes_battery_totals": true
   },
   "random_40_s0": {
    "arm": "random_40",
@@ -1942,7 +2017,7 @@
    "judge_agreement": 0.9253731343283582,
    "judge_disagreements": 20,
    "judge_graded": 268,
-   "nights": 11,
+   "nights": 10,
    "memory_tokens_by_night": [
     9516,
     24501,
@@ -1953,8 +2028,7 @@
     90904,
     100065,
     108528,
-    116997,
-    120018
+    116997
    ],
    "cap_by_night": [
     19500,
@@ -1966,8 +2040,7 @@
     91000,
     100100,
     108550,
-    117000,
-    124500
+    117000
    ],
    "memory_fill_by_night": [
     0.488,
@@ -1979,11 +2052,10 @@
     0.9989450549450549,
     0.9996503496503496,
     0.999797328420083,
-    0.9999743589743589,
-    0.964
+    0.9999743589743589
    ],
-   "mean_memory_tokens": 73599.90909090909,
-   "mean_memory_fill": 0.8884147103316717,
+   "mean_memory_tokens": 68958.1,
+   "mean_memory_fill": 0.8808561813648389,
    "final_memory_tokens": 116997,
    "details_stripped": 70,
    "details_partial": 5,
@@ -2030,7 +2102,15 @@
     "serial_foil_fa": 0.0,
     "pl_fan1_acc": null,
     "pl_fan2_acc": null
-   }
+   },
+   "battery_night": {
+    "day": 10,
+    "tokens": 120018,
+    "cap": 124500,
+    "details_stripped": null,
+    "items_deleted": null
+   },
+   "legacy_includes_battery_totals": true
   },
   "random_40_s1": {
    "arm": "random_40",
@@ -2069,7 +2149,7 @@
    "judge_agreement": 0.9477611940298507,
    "judge_disagreements": 14,
    "judge_graded": 268,
-   "nights": 11,
+   "nights": 10,
    "memory_tokens_by_night": [
     10945,
     21645,
@@ -2080,8 +2160,7 @@
     90998,
     100078,
     108542,
-    116941,
-    121072
+    116941
    ],
    "cap_by_night": [
     19500,
@@ -2093,8 +2172,7 @@
     91000,
     100100,
     108550,
-    117000,
-    124500
+    117000
    ],
    "memory_fill_by_night": [
     0.5612820512820513,
@@ -2106,11 +2184,10 @@
     0.999978021978022,
     0.9997802197802198,
     0.9999263012436665,
-    0.9994957264957265,
-    0.9724658634538152
+    0.9994957264957265
    ],
-   "mean_memory_tokens": 72665.63636363637,
-   "mean_memory_fill": 0.8724131572018257,
+   "mean_memory_tokens": 67825,
+   "mean_memory_fill": 0.8624078865766267,
    "final_memory_tokens": 116941,
    "details_stripped": 58,
    "details_partial": 4,
@@ -2157,7 +2234,15 @@
     "serial_foil_fa": 0.0,
     "pl_fan1_acc": 1.0,
     "pl_fan2_acc": 1.0
-   }
+   },
+   "battery_night": {
+    "day": 10,
+    "tokens": 121072,
+    "cap": 124500,
+    "details_stripped": null,
+    "items_deleted": null
+   },
+   "legacy_includes_battery_totals": true
   },
   "random_40_s2": {
    "arm": "random_40",
@@ -2196,7 +2281,7 @@
    "judge_agreement": 0.9291044776119403,
    "judge_disagreements": 19,
    "judge_graded": 268,
-   "nights": 11,
+   "nights": 10,
    "memory_tokens_by_night": [
     8228,
     20096,
@@ -2207,8 +2292,7 @@
     80135,
     100063,
     108538,
-    116951,
-    119948
+    116951
    ],
    "cap_by_night": [
     19500,
@@ -2220,8 +2304,7 @@
     91000,
     100100,
     108550,
-    117000,
-    124500
+    117000
    ],
    "memory_fill_by_night": [
     0.42194871794871797,
@@ -2233,11 +2316,10 @@
     0.8806043956043956,
     0.9996303696303697,
     0.9998894518654998,
-    0.9995811965811966,
-    0.9634377510040161
+    0.9995811965811966
    ],
-   "mean_memory_tokens": 65486,
-   "mean_memory_fill": 0.7535478783404148,
+   "mean_memory_tokens": 60039.8,
+   "mean_memory_fill": 0.7325588910740547,
    "final_memory_tokens": 116951,
    "details_stripped": 36,
    "details_partial": 2,
@@ -2284,7 +2366,15 @@
     "serial_foil_fa": 0.0,
     "pl_fan1_acc": 1.0,
     "pl_fan2_acc": 1.0
-   }
+   },
+   "battery_night": {
+    "day": 10,
+    "tokens": 119948,
+    "cap": 124500,
+    "details_stripped": null,
+    "items_deleted": null
+   },
+   "legacy_includes_battery_totals": true
   },
   "structured_05_s0": {
    "arm": "structured_05",
@@ -2323,7 +2413,7 @@
    "judge_agreement": 0.9477611940298507,
    "judge_disagreements": 14,
    "judge_graded": 268,
-   "nights": 11,
+   "nights": 10,
    "memory_tokens_by_night": [
     7678,
     17871,
@@ -2334,8 +2424,7 @@
     83356,
     100064,
     108514,
-    116966,
-    120644
+    116966
    ],
    "cap_by_night": [
     19500,
@@ -2347,8 +2436,7 @@
     91000,
     100100,
     108550,
-    117000,
-    124500
+    117000
    ],
    "memory_fill_by_night": [
     0.39374358974358975,
@@ -2360,11 +2448,10 @@
     0.916,
     0.9996403596403597,
     0.9996683555964994,
-    0.9997094017094017,
-    0.9690281124497993
+    0.9997094017094017
    ],
-   "mean_memory_tokens": 67962,
-   "mean_memory_fill": 0.7896051035389261,
+   "mean_memory_tokens": 62693.8,
+   "mean_memory_fill": 0.7716628026478388,
    "final_memory_tokens": 116966,
    "details_stripped": 26,
    "details_partial": 3,
@@ -2411,7 +2498,15 @@
     "serial_foil_fa": 0.0,
     "pl_fan1_acc": 1.0,
     "pl_fan2_acc": 1.0
-   }
+   },
+   "battery_night": {
+    "day": 10,
+    "tokens": 120644,
+    "cap": 124500,
+    "details_stripped": null,
+    "items_deleted": null
+   },
+   "legacy_includes_battery_totals": true
   },
   "structured_05_s1": {
    "arm": "structured_05",
@@ -2450,7 +2545,7 @@
    "judge_agreement": 0.9664179104477612,
    "judge_disagreements": 9,
    "judge_graded": 268,
-   "nights": 11,
+   "nights": 10,
    "memory_tokens_by_night": [
     9353,
     25884,
@@ -2461,8 +2556,7 @@
     90996,
     100091,
     108528,
-    116922,
-    120799
+    116922
    ],
    "cap_by_night": [
     19500,
@@ -2474,8 +2568,7 @@
     91000,
     100100,
     108550,
-    117000,
-    124500
+    117000
    ],
    "memory_fill_by_night": [
     0.4796410256410256,
@@ -2487,11 +2580,10 @@
     0.999956043956044,
     0.9999100899100899,
     0.999797328420083,
-    0.9993333333333333,
-    0.9702730923694779
+    0.9993333333333333
    ],
-   "mean_memory_tokens": 75355.09090909091,
-   "mean_memory_fill": 0.919190345265701,
+   "mean_memory_tokens": 70810.7,
+   "mean_memory_fill": 0.9140820705553233,
    "final_memory_tokens": 116922,
    "details_stripped": 93,
    "details_partial": 6,
@@ -2538,7 +2630,15 @@
     "serial_foil_fa": 0.0,
     "pl_fan1_acc": 1.0,
     "pl_fan2_acc": 1.0
-   }
+   },
+   "battery_night": {
+    "day": 10,
+    "tokens": 120799,
+    "cap": 124500,
+    "details_stripped": null,
+    "items_deleted": null
+   },
+   "legacy_includes_battery_totals": true
   },
   "structured_05_s2": {
    "arm": "structured_05",
@@ -2577,7 +2677,7 @@
    "judge_agreement": 0.9067164179104478,
    "judge_disagreements": 25,
    "judge_graded": 268,
-   "nights": 11,
+   "nights": 10,
    "memory_tokens_by_night": [
     5773,
     17269,
@@ -2588,8 +2688,7 @@
     90864,
     100051,
     108488,
-    116718,
-    121543
+    116718
    ],
    "cap_by_night": [
     19500,
@@ -2601,8 +2700,7 @@
     91000,
     100100,
     108550,
-    117000,
-    124500
+    117000
    ],
    "memory_fill_by_night": [
     0.29605128205128206,
@@ -2614,11 +2712,10 @@
     0.9985054945054945,
     0.9995104895104895,
     0.9994288346384155,
-    0.9975897435897436,
-    0.9762489959839358
+    0.9975897435897436
    ],
-   "mean_memory_tokens": 70377.90909090909,
-   "mean_memory_fill": 0.8114833703615977,
+   "mean_memory_tokens": 65261.4,
+   "mean_memory_fill": 0.7950068077993638,
    "final_memory_tokens": 116718,
    "details_stripped": 46,
    "details_partial": 3,
@@ -2665,7 +2762,15 @@
     "serial_foil_fa": 0.0,
     "pl_fan1_acc": 1.0,
     "pl_fan2_acc": 1.0
-   }
+   },
+   "battery_night": {
+    "day": 10,
+    "tokens": 121543,
+    "cap": 124500,
+    "details_stripped": null,
+    "items_deleted": null
+   },
+   "legacy_includes_battery_totals": true
   },
   "structured_10_s0": {
    "arm": "structured_10",
@@ -2704,7 +2809,7 @@
    "judge_agreement": 0.9291044776119403,
    "judge_disagreements": 19,
    "judge_graded": 268,
-   "nights": 11,
+   "nights": 10,
    "memory_tokens_by_night": [
     17529,
     28371,
@@ -2715,8 +2820,7 @@
     90978,
     100046,
     108309,
-    116936,
-    120791
+    116936
    ],
    "cap_by_night": [
     19500,
@@ -2728,8 +2832,7 @@
     91000,
     100100,
     108550,
-    117000,
-    124500
+    117000
    ],
    "memory_fill_by_night": [
     0.8989230769230769,
@@ -2741,11 +2844,10 @@
     0.9997582417582418,
     0.9994605394605395,
     0.9977798249654537,
-    0.9994529914529915,
-    0.9702088353413655
+    0.9994529914529915
    ],
-   "mean_memory_tokens": 76601.81818181818,
-   "mean_memory_fill": 0.969746944637682,
+   "mean_memory_tokens": 72182.9,
+   "mean_memory_fill": 0.9697007555673136,
    "final_memory_tokens": 116936,
    "details_stripped": 67,
    "details_partial": 6,
@@ -2792,7 +2894,15 @@
     "serial_foil_fa": 0.0,
     "pl_fan1_acc": 1.0,
     "pl_fan2_acc": 1.0
-   }
+   },
+   "battery_night": {
+    "day": 10,
+    "tokens": 120791,
+    "cap": 124500,
+    "details_stripped": null,
+    "items_deleted": null
+   },
+   "legacy_includes_battery_totals": true
   },
   "structured_10_s1": {
    "arm": "structured_10",
@@ -2831,7 +2941,7 @@
    "judge_agreement": 0.9552238805970149,
    "judge_disagreements": 12,
    "judge_graded": 268,
-   "nights": 11,
+   "nights": 10,
    "memory_tokens_by_night": [
     10997,
     24500,
@@ -2842,8 +2952,7 @@
     90992,
     100095,
     108528,
-    116892,
-    119793
+    116892
    ],
    "cap_by_night": [
     19500,
@@ -2855,8 +2964,7 @@
     91000,
     100100,
     108550,
-    117000,
-    124500
+    117000
    ],
    "memory_fill_by_night": [
     0.5639487179487179,
@@ -2868,11 +2976,10 @@
     0.999912087912088,
     0.99995004995005,
     0.999797328420083,
-    0.9990769230769231,
-    0.9621927710843373
+    0.9990769230769231
    ],
-   "mean_memory_tokens": 74781.63636363637,
-   "mean_memory_fill": 0.9124857756331942,
+   "mean_memory_tokens": 70280.5,
+   "mean_memory_fill": 0.9075150760880799,
    "final_memory_tokens": 116892,
    "details_stripped": 102,
    "details_partial": 5,
@@ -2919,7 +3026,15 @@
     "serial_foil_fa": 0.0,
     "pl_fan1_acc": 1.0,
     "pl_fan2_acc": 1.0
-   }
+   },
+   "battery_night": {
+    "day": 10,
+    "tokens": 119793,
+    "cap": 124500,
+    "details_stripped": null,
+    "items_deleted": null
+   },
+   "legacy_includes_battery_totals": true
   },
   "structured_10_s2": {
    "arm": "structured_10",
@@ -2958,7 +3073,7 @@
    "judge_agreement": 0.9216417910447762,
    "judge_disagreements": 21,
    "judge_graded": 268,
-   "nights": 11,
+   "nights": 10,
    "memory_tokens_by_night": [
     9085,
     20173,
@@ -2969,8 +3084,7 @@
     90993,
     100096,
     108547,
-    116374,
-    121084
+    116374
    ],
    "cap_by_night": [
     19500,
@@ -2982,8 +3096,7 @@
     91000,
     100100,
     108550,
-    117000,
-    124500
+    117000
    ],
    "memory_fill_by_night": [
     0.4658974358974359,
@@ -2995,11 +3108,10 @@
     0.9999230769230769,
     0.99996003996004,
     0.9999723629663749,
-    0.9946495726495727,
-    0.972562248995984
+    0.9946495726495727
    ],
-   "mean_memory_tokens": 73061.63636363637,
-   "mean_memory_fill": 0.8716646451637177,
+   "mean_memory_tokens": 68259.4,
+   "mean_memory_fill": 0.861574884780491,
    "final_memory_tokens": 116374,
    "details_stripped": 34,
    "details_partial": 4,
@@ -3046,7 +3158,15 @@
     "serial_foil_fa": 0.0,
     "pl_fan1_acc": 0.9583333333333333,
     "pl_fan2_acc": 1.0
-   }
+   },
+   "battery_night": {
+    "day": 10,
+    "tokens": 121084,
+    "cap": 124500,
+    "details_stripped": null,
+    "items_deleted": null
+   },
+   "legacy_includes_battery_totals": true
   },
   "structured_20_s0": {
    "arm": "structured_20",
@@ -3085,7 +3205,7 @@
    "judge_agreement": 0.917910447761194,
    "judge_disagreements": 22,
    "judge_graded": 268,
-   "nights": 11,
+   "nights": 10,
    "memory_tokens_by_night": [
     12787,
     28550,
@@ -3096,8 +3216,7 @@
     90677,
     100012,
     108482,
-    116975,
-    120467
+    116975
    ],
    "cap_by_night": [
     19500,
@@ -3109,8 +3228,7 @@
     91000,
     100100,
     108550,
-    117000,
-    124500
+    117000
    ],
    "memory_fill_by_night": [
     0.6557435897435897,
@@ -3122,11 +3240,10 @@
     0.9964505494505494,
     0.9991208791208791,
     0.9993735605711653,
-    0.9997863247863248,
-    0.9676064257028112
+    0.9997863247863248
    ],
-   "mean_memory_tokens": 75975.27272727272,
-   "mean_memory_fill": 0.9441498725064331,
+   "mean_memory_tokens": 71526.1,
+   "mean_memory_fill": 0.9418042171867954,
    "final_memory_tokens": 116975,
    "details_stripped": 28,
    "details_partial": 4,
@@ -3173,7 +3290,15 @@
     "serial_foil_fa": 0.0,
     "pl_fan1_acc": 0.9791666666666667,
     "pl_fan2_acc": 1.0
-   }
+   },
+   "battery_night": {
+    "day": 10,
+    "tokens": 120467,
+    "cap": 124500,
+    "details_stripped": null,
+    "items_deleted": null
+   },
+   "legacy_includes_battery_totals": true
   },
   "structured_20_s1": {
    "arm": "structured_20",
@@ -3212,7 +3337,7 @@
    "judge_agreement": 0.9440298507462687,
    "judge_disagreements": 15,
    "judge_graded": 268,
-   "nights": 11,
+   "nights": 10,
    "memory_tokens_by_night": [
     9664,
     24328,
@@ -3223,8 +3348,7 @@
     90970,
     100075,
     108427,
-    116990,
-    120599
+    116990
    ],
    "cap_by_night": [
     19500,
@@ -3236,8 +3360,7 @@
     91000,
     100100,
     108550,
-    117000,
-    124500
+    117000
    ],
    "memory_fill_by_night": [
     0.4955897435897436,
@@ -3249,11 +3372,10 @@
     0.9996703296703296,
     0.9997502497502497,
     0.9988668816213726,
-    0.9999145299145299,
-    0.9686666666666667
+    0.9999145299145299
    ],
-   "mean_memory_tokens": 75134.36363636363,
-   "mean_memory_fill": 0.9146973081955723,
+   "mean_memory_tokens": 70587.9,
+   "mean_memory_fill": 0.9093003723484628,
    "final_memory_tokens": 116990,
    "details_stripped": 102,
    "details_partial": 7,
@@ -3300,7 +3422,15 @@
     "serial_foil_fa": null,
     "pl_fan1_acc": 1.0,
     "pl_fan2_acc": 1.0
-   }
+   },
+   "battery_night": {
+    "day": 10,
+    "tokens": 120599,
+    "cap": 124500,
+    "details_stripped": null,
+    "items_deleted": null
+   },
+   "legacy_includes_battery_totals": true
   },
   "structured_20_s2": {
    "arm": "structured_20",
@@ -3339,7 +3469,7 @@
    "judge_agreement": 0.8917910447761194,
    "judge_disagreements": 29,
    "judge_graded": 268,
-   "nights": 11,
+   "nights": 10,
    "memory_tokens_by_night": [
     11364,
     21357,
@@ -3350,8 +3480,7 @@
     90018,
     98959,
     108452,
-    116977,
-    121522
+    116977
    ],
    "cap_by_night": [
     19500,
@@ -3363,8 +3492,7 @@
     91000,
     100100,
     108550,
-    117000,
-    124500
+    117000
    ],
    "memory_fill_by_night": [
     0.5827692307692308,
@@ -3376,11 +3504,10 @@
     0.9892087912087912,
     0.9886013986013986,
     0.9990971902349148,
-    0.9998034188034188,
-    0.9760803212851406
+    0.9998034188034188
    ],
-   "mean_memory_tokens": 72543.27272727272,
-   "mean_memory_fill": 0.8724382792782154,
+   "mean_memory_tokens": 67645.4,
+   "mean_memory_fill": 0.8620740750775229,
    "final_memory_tokens": 116977,
    "details_stripped": 39,
    "details_partial": 3,
@@ -3427,7 +3554,15 @@
     "serial_foil_fa": 0.0,
     "pl_fan1_acc": 1.0,
     "pl_fan2_acc": 1.0
-   }
+   },
+   "battery_night": {
+    "day": 10,
+    "tokens": 121522,
+    "cap": 124500,
+    "details_stripped": null,
+    "items_deleted": null
+   },
+   "legacy_includes_battery_totals": true
   },
   "structured_40_s0": {
    "arm": "structured_40",
@@ -3466,7 +3601,7 @@
    "judge_agreement": 0.9402985074626866,
    "judge_disagreements": 16,
    "judge_graded": 268,
-   "nights": 11,
+   "nights": 10,
    "memory_tokens_by_night": [
     12672,
     22131,
@@ -3477,8 +3612,7 @@
     85259,
     100100,
     108533,
-    116990,
-    119810
+    116990
    ],
    "cap_by_night": [
     19500,
@@ -3490,8 +3624,7 @@
     91000,
     100100,
     108550,
-    117000,
-    124500
+    117000
    ],
    "memory_fill_by_night": [
     0.6498461538461539,
@@ -3503,11 +3636,10 @@
     0.9369120879120879,
     1.0,
     0.9998433901427913,
-    0.9999145299145299,
-    0.9623293172690763
+    0.9999145299145299
    ],
-   "mean_memory_tokens": 69879.36363636363,
-   "mean_memory_fill": 0.841263481303621,
+   "mean_memory_tokens": 64886.3,
+   "mean_memory_fill": 0.8291568977070756,
    "final_memory_tokens": 116990,
    "details_stripped": 44,
    "details_partial": 3,
@@ -3554,7 +3686,15 @@
     "serial_foil_fa": 0.0,
     "pl_fan1_acc": 0.9791666666666667,
     "pl_fan2_acc": 1.0
-   }
+   },
+   "battery_night": {
+    "day": 10,
+    "tokens": 119810,
+    "cap": 124500,
+    "details_stripped": null,
+    "items_deleted": null
+   },
+   "legacy_includes_battery_totals": true
   },
   "structured_40_s1": {
    "arm": "structured_40",
@@ -3593,7 +3733,7 @@
    "judge_agreement": 0.9104477611940298,
    "judge_disagreements": 24,
    "judge_graded": 268,
-   "nights": 11,
+   "nights": 10,
    "memory_tokens_by_night": [
     7490,
     19194,
@@ -3604,8 +3744,7 @@
     83548,
     100062,
     108478,
-    116997,
-    122704
+    116997
    ],
    "cap_by_night": [
     19500,
@@ -3617,8 +3756,7 @@
     91000,
     100100,
     108550,
-    117000,
-    124500
+    117000
    ],
    "memory_fill_by_night": [
     0.3841025641025641,
@@ -3630,11 +3768,10 @@
     0.9181098901098901,
     0.9996203796203796,
     0.9993367111929986,
-    0.9999743589743589,
-    0.985574297188755
+    0.9999743589743589
    ],
-   "mean_memory_tokens": 69791.09090909091,
-   "mean_memory_fill": 0.8194912199949049,
+   "mean_memory_tokens": 64499.8,
+   "mean_memory_fill": 0.8028829122755199,
    "final_memory_tokens": 116997,
    "details_stripped": 21,
    "details_partial": 3,
@@ -3681,7 +3818,15 @@
     "serial_foil_fa": 0.0,
     "pl_fan1_acc": 0.9791666666666667,
     "pl_fan2_acc": 1.0
-   }
+   },
+   "battery_night": {
+    "day": 10,
+    "tokens": 122704,
+    "cap": 124500,
+    "details_stripped": null,
+    "items_deleted": null
+   },
+   "legacy_includes_battery_totals": true
   },
   "structured_40_s2": {
    "arm": "structured_40",
@@ -3720,7 +3865,7 @@
    "judge_agreement": 0.8880597014925373,
    "judge_disagreements": 30,
    "judge_graded": 268,
-   "nights": 11,
+   "nights": 10,
    "memory_tokens_by_night": [
     7554,
     16428,
@@ -3731,8 +3876,7 @@
     88796,
     96059,
     107543,
-    116978,
-    119549
+    116978
    ],
    "cap_by_night": [
     19500,
@@ -3744,8 +3888,7 @@
     91000,
     100100,
     108550,
-    117000,
-    124500
+    117000
    ],
    "memory_fill_by_night": [
     0.3873846153846154,
@@ -3757,11 +3900,10 @@
     0.9757802197802198,
     0.9596303696303696,
     0.9907231690465224,
-    0.9998119658119659,
-    0.9602329317269076
+    0.9998119658119659
    ],
-   "mean_memory_tokens": 69947,
-   "mean_memory_fill": 0.8167232407125957,
+   "mean_memory_tokens": 64986.8,
+   "mean_memory_fill": 0.8023722716111645,
    "final_memory_tokens": 116978,
    "details_stripped": 30,
    "details_partial": 1,
@@ -3808,7 +3950,15 @@
     "serial_foil_fa": 0.0,
     "pl_fan1_acc": 1.0,
     "pl_fan2_acc": 1.0
-   }
+   },
+   "battery_night": {
+    "day": 10,
+    "tokens": 119549,
+    "cap": 124500,
+    "details_stripped": null,
+    "items_deleted": null
+   },
+   "legacy_includes_battery_totals": true
   }
  },
  "by_arm": {
@@ -3894,23 +4044,23 @@
     ]
    },
    "mean_memory_tokens": {
-    "mean": 76442.39393939394,
-    "sd": 24.806746172106187,
+    "mean": 72275.5,
+    "sd": 72.0327009073017,
     "n": 3,
     "values": [
-     76452.72727272728,
-     76414.09090909091,
-     76460.36363636363
+     72305,
+     72193.4,
+     72328.1
     ]
    },
    "mean_memory_fill": {
-    "mean": 0.9819348184755072,
-    "sd": 0.0036285043439685085,
+    "mean": 0.9852597594930713,
+    "sd": 0.004331822404333696,
     "n": 3,
     "values": [
-     0.9846301584693703,
-     0.9778091275081167,
-     0.9833651694490346
+     0.9883702827500422,
+     0.980312128612342,
+     0.9870968671168296
     ]
    },
    "final_memory_tokens": {
@@ -4403,16 +4553,6 @@
       116686,
       115848
      ]
-    },
-    {
-     "mean": 118111.33333333333,
-     "sd": 447.46210267835346,
-     "n": 3,
-     "values": [
-      117930,
-      118621,
-      117783
-     ]
     }
    ]
   },
@@ -4498,23 +4638,23 @@
     ]
    },
    "mean_memory_tokens": {
-    "mean": 72176.0,
-    "sd": 4409.5941071806865,
+    "mean": 67351.63333333333,
+    "sd": 4879.983139656669,
     "n": 3,
     "values": [
-     73107.18181818182,
-     76045.63636363637,
-     67375.18181818182
+     68508.4,
+     71549.3,
+     61997.2
     ]
    },
    "mean_memory_fill": {
-    "mean": 0.8678358652583785,
-    "sd": 0.07748176272997113,
+    "mean": 0.8578968279555684,
+    "sd": 0.08535701468941172,
     "n": 3,
     "values": [
-     0.8740184393616958,
-     0.9420411201011428,
-     0.7874480363122969
+     0.8657616487597127,
+     0.9390492481755142,
+     0.7688795869314784
     ]
    },
    "final_memory_tokens": {
@@ -5070,16 +5210,6 @@
       116998,
       116971
      ]
-    },
-    {
-     "mean": 120419.66666666667,
-     "sd": 1149.5152601567904,
-     "n": 3,
-     "values": [
-      119095,
-      121009,
-      121155
-     ]
     }
    ]
   },
@@ -5165,23 +5295,23 @@
     ]
    },
    "mean_memory_tokens": {
-    "mean": 71231.66666666667,
-    "sd": 3769.7645544706456,
+    "mean": 66255.3,
+    "sd": 4148.7220092457355,
     "n": 3,
     "values": [
-     67962,
-     75355.09090909091,
-     70377.90909090909
+     62693.8,
+     70810.7,
+     65261.4
     ]
    },
    "mean_memory_fill": {
-    "mean": 0.8400929397220749,
-    "sd": 0.06936832355326629,
+    "mean": 0.826917227000842,
+    "sd": 0.07638401735989349,
     "n": 3,
     "values": [
-     0.7896051035389261,
-     0.919190345265701,
-     0.8114833703615977
+     0.7716628026478388,
+     0.9140820705553233,
+     0.7950068077993638
     ]
    },
    "final_memory_tokens": {
@@ -5746,16 +5876,6 @@
       116922,
       116718
      ]
-    },
-    {
-     "mean": 120995.33333333333,
-     "sd": 480.5833261083174,
-     "n": 3,
-     "values": [
-      120644,
-      120799,
-      121543
-     ]
     }
    ]
   },
@@ -5841,23 +5961,23 @@
     ]
    },
    "mean_memory_tokens": {
-    "mean": 74815.0303030303,
-    "sd": 1770.327142885588,
+    "mean": 70240.93333333333,
+    "sd": 1962.049235705703,
     "n": 3,
     "values": [
-     76601.81818181818,
-     74781.63636363637,
-     73061.63636363637
+     72182.9,
+     70280.5,
+     68259.4
     ]
    },
    "mean_memory_fill": {
-    "mean": 0.917965788478198,
-    "sd": 0.04927024734168846,
+    "mean": 0.9129302388119616,
+    "sd": 0.05426595593783224,
     "n": 3,
     "values": [
-     0.969746944637682,
-     0.9124857756331942,
-     0.8716646451637177
+     0.9697007555673136,
+     0.9075150760880799,
+     0.861574884780491
     ]
    },
    "final_memory_tokens": {
@@ -6422,16 +6542,6 @@
       116892,
       116374
      ]
-    },
-    {
-     "mean": 120556,
-     "sd": 676.822724204795,
-     "n": 3,
-     "values": [
-      120791,
-      119793,
-      121084
-     ]
     }
    ]
   },
@@ -6517,23 +6627,23 @@
     ]
    },
    "mean_memory_tokens": {
-    "mean": 74550.9696969697,
-    "sd": 1788.831285054906,
+    "mean": 69919.8,
+    "sd": 2024.7780940142598,
     "n": 3,
     "values": [
-     75975.27272727272,
-     75134.36363636363,
-     72543.27272727272
+     71526.1,
+     70587.9,
+     67645.4
     ]
    },
    "mean_memory_fill": {
-    "mean": 0.9104284866600736,
-    "sd": 0.036045877417657544,
+    "mean": 0.9043928882042603,
+    "sd": 0.040090977047964264,
     "n": 3,
     "values": [
-     0.9441498725064331,
-     0.9146973081955723,
-     0.8724382792782154
+     0.9418042171867954,
+     0.9093003723484628,
+     0.8620740750775229
     ]
    },
    "final_memory_tokens": {
@@ -7094,16 +7204,6 @@
       116990,
       116977
      ]
-    },
-    {
-     "mean": 120862.66666666667,
-     "sd": 574.8011250278946,
-     "n": 3,
-     "values": [
-      120467,
-      120599,
-      121522
-     ]
     }
    ]
   },
@@ -7189,23 +7289,23 @@
     ]
    },
    "mean_memory_tokens": {
-    "mean": 69872.48484848485,
-    "sd": 78.18183579985552,
+    "mean": 64790.96666666667,
+    "sd": 257.1158947504672,
     "n": 3,
     "values": [
-     69879.36363636363,
-     69791.09090909091,
-     69947
+     64886.3,
+     64499.8,
+     64986.8
     ]
    },
    "mean_memory_fill": {
-    "mean": 0.8258259806703739,
-    "sd": 0.01344071228313265,
+    "mean": 0.8114706938645867,
+    "sd": 0.015318829695527504,
     "n": 3,
     "values": [
-     0.841263481303621,
-     0.8194912199949049,
-     0.8167232407125957
+     0.8291568977070756,
+     0.8028829122755199,
+     0.8023722716111645
     ]
    },
    "final_memory_tokens": {
@@ -7770,16 +7870,6 @@
       116997,
       116978
      ]
-    },
-    {
-     "mean": 120687.66666666667,
-     "sd": 1751.0654851641996,
-     "n": 3,
-     "values": [
-      119810,
-      122704,
-      119549
-     ]
     }
    ]
   },
@@ -7865,23 +7955,23 @@
     ]
    },
    "mean_memory_tokens": {
-    "mean": 73945.66666666667,
-    "sd": 2591.344943137649,
+    "mean": 69307.23333333334,
+    "sd": 2931.6106056796334,
     "n": 3,
     "values": [
-     71340.18181818182,
-     76522.63636363637,
-     73974.18181818182
+     66364.8,
+     72227.9,
+     69329
     ]
    },
    "mean_memory_fill": {
-    "mean": 0.8985204318023415,
-    "sd": 0.06240055545133098,
+    "mean": 0.8917218725729371,
+    "sd": 0.06929506383152047,
     "n": 3,
     "values": [
-     0.8427458065972353,
-     0.96591372759804,
-     0.8869017612117494
+     0.8297561302288463,
+     0.9665452610004143,
+     0.8788642264895508
     ]
    },
    "final_memory_tokens": {
@@ -8446,16 +8536,6 @@
       116991,
       116974
      ]
-    },
-    {
-     "mean": 120330,
-     "sd": 816.2450612408016,
-     "n": 3,
-     "values": [
-      121094,
-      119470,
-      120426
-     ]
     }
    ]
   },
@@ -8541,23 +8621,23 @@
     ]
    },
    "mean_memory_tokens": {
-    "mean": 73996.15151515152,
-    "sd": 2754.3915203512584,
+    "mean": 69301.06666666667,
+    "sd": 3166.399623126138,
     "n": 3,
     "values": [
-     74712.18181818182,
-     76321.81818181818,
-     70954.45454545454
+     70107.6,
+     71986.2,
+     65809.4
     ]
    },
    "mean_memory_fill": {
-    "mean": 0.8950863552589361,
-    "sd": 0.06817526611846329,
+    "mean": 0.8874488060458738,
+    "sd": 0.07609583210250545,
     "n": 3,
     "values": [
-     0.9042544404339777,
-     0.9582136601029254,
-     0.8227909652399051
+     0.8976855069673353,
+     0.9579081184826959,
+     0.8067527926875905
     ]
    },
    "final_memory_tokens": {
@@ -9122,16 +9202,6 @@
       116987,
       116976
      ]
-    },
-    {
-     "mean": 120947,
-     "sd": 1373.289117411188,
-     "n": 3,
-     "values": [
-      120758,
-      119678,
-      122405
-     ]
     }
    ]
   },
@@ -9217,23 +9287,23 @@
     ]
    },
    "mean_memory_tokens": {
-    "mean": 72782.12121212122,
-    "sd": 3560.2261934053295,
+    "mean": 68000.93333333333,
+    "sd": 3794.181263900465,
     "n": 3,
     "values": [
-     69928.27272727272,
-     76771.63636363637,
-     71646.45454545454
+     64848.5,
+     72212,
+     66942.3
     ]
    },
    "mean_memory_fill": {
-    "mean": 0.8761547796684485,
-    "sd": 0.07606933796853708,
+    "mean": 0.8669076070328837,
+    "sd": 0.08259319811808269,
     "n": 3,
     "values": [
-     0.8207678744792676,
-     0.9628885763435491,
-     0.8448078881825287
+     0.8058759872283991,
+     0.9608898837771008,
+     0.8339569500931511
     ]
    },
    "final_memory_tokens": {
@@ -9792,16 +9862,6 @@
       116998,
       116994
      ]
-    },
-    {
-     "mean": 120594,
-     "sd": 1843.547666864082,
-     "n": 3,
-     "values": [
-      120726,
-      122368,
-      118688
-     ]
     }
    ]
   },
@@ -9887,23 +9947,23 @@
     ]
    },
    "mean_memory_tokens": {
-    "mean": 70583.84848484848,
-    "sd": 4439.511320301526,
+    "mean": 65607.63333333333,
+    "sd": 4855.054574701848,
     "n": 3,
     "values": [
-     73599.90909090909,
-     72665.63636363637,
-     65486
+     68958.1,
+     67825,
+     60039.8
     ]
    },
    "mean_memory_fill": {
-    "mean": 0.8381252486246374,
-    "sd": 0.07368182339483528,
+    "mean": 0.8252743196718401,
+    "sd": 0.08082201383411253,
     "n": 3,
     "values": [
-     0.8884147103316717,
-     0.8724131572018257,
-     0.7535478783404148
+     0.8808561813648389,
+     0.8624078865766267,
+     0.7325588910740547
     ]
    },
    "final_memory_tokens": {
@@ -10465,16 +10525,6 @@
       116997,
       116941,
       116951
-     ]
-    },
-    {
-     "mean": 120346,
-     "sd": 629.7078687772608,
-     "n": 3,
-     "values": [
-      120018,
-      121072,
-      119948
      ]
     }
    ]
@@ -11964,13 +12014,13 @@
      ]
     },
     "mean_memory_tokens": {
-     "mean": 72176.0,
-     "sd": 4409.5941071806865,
+     "mean": 67351.63333333333,
+     "sd": 4879.983139656669,
      "n": 3,
      "values": [
-      73107.18181818182,
-      76045.63636363637,
-      67375.18181818182
+      68508.4,
+      71549.3,
+      61997.2
      ]
     },
     "drm_lure_fa": {
@@ -12028,13 +12078,13 @@
      ]
     },
     "mean_memory_tokens": {
-     "mean": 71231.66666666667,
-     "sd": 3769.7645544706456,
+     "mean": 66255.3,
+     "sd": 4148.7220092457355,
      "n": 3,
      "values": [
-      67962,
-      75355.09090909091,
-      70377.90909090909
+      62693.8,
+      70810.7,
+      65261.4
      ]
     },
     "drm_lure_fa": {
@@ -12092,13 +12142,13 @@
      ]
     },
     "mean_memory_tokens": {
-     "mean": 74815.0303030303,
-     "sd": 1770.327142885588,
+     "mean": 70240.93333333333,
+     "sd": 1962.049235705703,
      "n": 3,
      "values": [
-      76601.81818181818,
-      74781.63636363637,
-      73061.63636363637
+      72182.9,
+      70280.5,
+      68259.4
      ]
     },
     "drm_lure_fa": {
@@ -12156,13 +12206,13 @@
      ]
     },
     "mean_memory_tokens": {
-     "mean": 74550.9696969697,
-     "sd": 1788.831285054906,
+     "mean": 69919.8,
+     "sd": 2024.7780940142598,
      "n": 3,
      "values": [
-      75975.27272727272,
-      75134.36363636363,
-      72543.27272727272
+      71526.1,
+      70587.9,
+      67645.4
      ]
     },
     "drm_lure_fa": {
@@ -12220,13 +12270,13 @@
      ]
     },
     "mean_memory_tokens": {
-     "mean": 69872.48484848485,
-     "sd": 78.18183579985552,
+     "mean": 64790.96666666667,
+     "sd": 257.1158947504672,
      "n": 3,
      "values": [
-      69879.36363636363,
-      69791.09090909091,
-      69947
+      64886.3,
+      64499.8,
+      64986.8
      ]
     },
     "drm_lure_fa": {
@@ -12286,13 +12336,13 @@
      ]
     },
     "mean_memory_tokens": {
-     "mean": 72176.0,
-     "sd": 4409.5941071806865,
+     "mean": 67351.63333333333,
+     "sd": 4879.983139656669,
      "n": 3,
      "values": [
-      73107.18181818182,
-      76045.63636363637,
-      67375.18181818182
+      68508.4,
+      71549.3,
+      61997.2
      ]
     },
     "drm_lure_fa": {
@@ -12350,13 +12400,13 @@
      ]
     },
     "mean_memory_tokens": {
-     "mean": 73945.66666666667,
-     "sd": 2591.344943137649,
+     "mean": 69307.23333333334,
+     "sd": 2931.6106056796334,
      "n": 3,
      "values": [
-      71340.18181818182,
-      76522.63636363637,
-      73974.18181818182
+      66364.8,
+      72227.9,
+      69329
      ]
     },
     "drm_lure_fa": {
@@ -12414,13 +12464,13 @@
      ]
     },
     "mean_memory_tokens": {
-     "mean": 73996.15151515152,
-     "sd": 2754.3915203512584,
+     "mean": 69301.06666666667,
+     "sd": 3166.399623126138,
      "n": 3,
      "values": [
-      74712.18181818182,
-      76321.81818181818,
-      70954.45454545454
+      70107.6,
+      71986.2,
+      65809.4
      ]
     },
     "drm_lure_fa": {
@@ -12478,13 +12528,13 @@
      ]
     },
     "mean_memory_tokens": {
-     "mean": 72782.12121212122,
-     "sd": 3560.2261934053295,
+     "mean": 68000.93333333333,
+     "sd": 3794.181263900465,
      "n": 3,
      "values": [
-      69928.27272727272,
-      76771.63636363637,
-      71646.45454545454
+      64848.5,
+      72212,
+      66942.3
      ]
     },
     "drm_lure_fa": {
@@ -12542,13 +12592,13 @@
      ]
     },
     "mean_memory_tokens": {
-     "mean": 70583.84848484848,
-     "sd": 4439.511320301526,
+     "mean": 65607.63333333333,
+     "sd": 4855.054574701848,
      "n": 3,
      "values": [
-      73599.90909090909,
-      72665.63636363637,
-      65486
+      68958.1,
+      67825,
+      60039.8
      ]
     },
     "drm_lure_fa": {
