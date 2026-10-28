@@ -8,7 +8,10 @@ https://huggingface.co/datasets/xiaowu0162/longmemeval-cleaned into data/raw/ fi
 import json, pathlib
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-raw = json.load(open(ROOT / "data" / "raw" / "longmemeval_s_cleaned.json", encoding="utf-8"))
+raw_path = ROOT / "data" / "raw" / "longmemeval_s_cleaned.json"
+if not raw_path.exists():
+    raise SystemExit(f"missing {raw_path}; download it from the LongMemEval Hugging Face dataset first")
+raw = json.load(open(raw_path, encoding="utf-8"))
 sessions = {}
 for q in raw:
     for sid, sess in zip(q["haystack_session_ids"], q["haystack_sessions"]):
@@ -20,9 +23,15 @@ for seed in range(3):
     life = json.load(open(ROOT / "data" / "lives_manifest" / f"life_s{seed}.manifest.json", encoding="utf-8"))
     for day in life["schedule"]:
         for s in day["sessions"]:
-            s["turns"] = sessions[s["session_id"]]
+            sid = s["session_id"]
+            if sid not in sessions:
+                raise SystemExit(f"seed {seed}: session {sid} is in the manifest but not in LongMemEval")
+            s["turns"] = sessions[sid]
     for q in life["questions"]:
         for e in q["evidence"]:
-            e["turns"] = sessions[e["session_id"]]
+            sid = e["session_id"]
+            if sid not in sessions:
+                raise SystemExit(f"seed {seed}: evidence session {sid} is in the manifest but not in LongMemEval")
+            e["turns"] = sessions[sid]
     (out / f"life_s{seed}.json").write_text(json.dumps(life), encoding="utf-8")
     print(f"seed {seed}: {sum(len(d['sessions']) for d in life['schedule'])} sessions")

@@ -16,3 +16,4 @@ cost.jsonl.lock
 .pytest_cache/
 results/runs_fake/
 results/runs_free/
+results/runs_new/

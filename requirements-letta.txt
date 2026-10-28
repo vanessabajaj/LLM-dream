@@ -1,0 +1,2 @@
+letta-client==0.1.128
+jsonlines==4.0.0
