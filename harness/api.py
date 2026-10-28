@@ -249,9 +249,6 @@ def _parse_json(text):
 
 
 def _sub_once(system, prompt, json_schema, timeout, tag=""):
-    env = {k: v for k, v in os.environ.items() if k != "ANTHROPIC_API_KEY"}
-    env["CLAUDE_CODE_MAX_OUTPUT_TOKENS"] = str(MAX_OUTPUT_TOKENS)
-    env["CLAUDE_CODE_NO_MODEL_FALLBACK"] = "1"  # a refusal comes back as a refusal, never as another model's answer
     # the system prompt goes through a file: a 130,000-token day is far past the kernel's argument limit
     sp = tempfile.NamedTemporaryFile("w", encoding="utf-8", dir=_SUB_DIR, suffix=".txt", delete=False)
     sp.write(system); sp.close()
@@ -312,23 +309,6 @@ def _call_subscription(system, messages, *, tag, json_schema=None, timeout=900):
     prompt = _flatten(messages)
     body, t0, dt = _sub_once(system, prompt, json_schema, timeout, tag)
     text = body.get("result", "")
-    if json_schema is not None:
-        so = body.get("structured_output")
-        if so is None:
-            try:
-                so = _parse_json(text)
-            except Exception:
-                raise RunAborted(f"no structured output from {tag}: {text[:300]}")
-        text = json.dumps(so)
-    (CALLS_DIR / f"{call_id}.json").write_text(json.dumps(
-        {"call_id": call_id, "tag": tag, "ts": t0, "seconds": dt, "backend": "subscription",
-         "request": {"system": system, "prompt": prompt, "model": MODEL, "effort": EFFORT, "json_schema": json_schema},
-         "response": body}, indent=1, default=str), encoding="utf-8")
-    models = list((body.get("modelUsage") or {}).keys())
-    if models != [MODEL]:
-        log_cost({"call_id": call_id, "tag": tag, "provider": "anthropic", "backend": "subscription",
-                  "model": ",".join(models), "usd": body.get("total_cost_usd", 0), "error": "MODEL_MISMATCH", "ts": t0})
-        raise RunAborted(f"model mismatch: asked {MODEL}, got {models} (call {call_id})")
     usage = body.get("usage", {})
     usd = body.get("total_cost_usd", 0.0)
     rec = {"call_id": call_id, "tag": tag, "provider": "anthropic", "backend": "subscription", "model": MODEL,
@@ -337,10 +317,29 @@ def _call_subscription(system, messages, *, tag, json_schema=None, timeout=900):
            "cache_read": usage.get("cache_read_input_tokens", 0),
            "cache_write": usage.get("cache_creation_input_tokens", 0),
            "usd": round(usd, 6), "usd_basis": "list-price equivalent, billed to the subscription"}
+    (CALLS_DIR / f"{call_id}.json").write_text(json.dumps(
+        {"call_id": call_id, "tag": tag, "ts": t0, "seconds": dt, "backend": "subscription",
+         "request": {"system": system, "prompt": prompt, "model": MODEL, "effort": EFFORT, "json_schema": json_schema},
+         "response": body}, indent=1, default=str), encoding="utf-8")
+    # a refusal first: it has no structured output and may carry no model usage, and must surface as Refusal
+    # (counted as a wrong answer) rather than abort the run as a parse failure or a model mismatch
     if body.get("stop_reason") == "refusal":
         rec["error"] = "REFUSAL"; log_cost(rec)
         m = re.search(r"Details:\s*`?\[([a-z_, ]+)\]", text)
         raise Refusal(call_id, m.group(1) if m else "refusal", text[:300])
+    if json_schema is not None:
+        so = body.get("structured_output")
+        if so is None:
+            try:
+                so = _parse_json(text)
+            except Exception:
+                raise RunAborted(f"no structured output from {tag}: {text[:300]}")
+        text = json.dumps(so)
+    models = list((body.get("modelUsage") or {}).keys())
+    if models != [MODEL]:
+        log_cost({"call_id": call_id, "tag": tag, "provider": "anthropic", "backend": "subscription",
+                  "model": ",".join(models), "usd": body.get("total_cost_usd", 0), "error": "MODEL_MISMATCH", "ts": t0})
+        raise RunAborted(f"model mismatch: asked {MODEL}, got {models} (call {call_id})")
     log_cost(rec)
     return {"text": text, "thinking": "", "usage": usage, "usd": usd, "call_id": call_id,
             "stop_reason": body.get("stop_reason"), "model": MODEL, "seconds": dt}
