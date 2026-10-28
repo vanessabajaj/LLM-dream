@@ -6,7 +6,7 @@ Exit codes: 0 done, 1 error, 2 aborted (cap, model mismatch), 3 paused on the Ma
 import sys, json, random, pathlib, argparse, time, traceback
 from concurrent.futures import ThreadPoolExecutor
 import api, arms, memory, battery, transfer
-from judge import judge
+from judge import judge, MAIN_JUDGE
 from life import ntok
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
@@ -47,7 +47,8 @@ class Run:
         else:
             self.state = {"arm": arm, "seed": seed, "phases_done": [], "memory": "",
                           "mem": ({"window": ""} if arm == "nosleep" else {"items": [], "next_id": 1}),
-                          "answers": [], "nights": [], "timing": [], "battery": {}, "transfer": [], "started": time.time()}
+                          "answers": [], "nights": [], "timing": [], "battery": {}, "transfer": [], "started": time.time(),
+                          "backend": api.BACKEND, "main_judge": MAIN_JUDGE}
         self.tag = f"{arm}/s{seed}"
 
     # ---- persistence -------------------------------------------------------------------------
@@ -211,7 +212,9 @@ class Run:
 if __name__ == "__main__":
     p = argparse.ArgumentParser()
     p.add_argument("arm", choices=arms.ARMS); p.add_argument("seed", type=int)
-    p.add_argument("--days", type=int, default=10); p.add_argument("--out", default=str(ROOT / "results" / "runs_v2"))
+    # fake-backend runs never land beside real ones
+    p.add_argument("--days", type=int, default=10)
+    p.add_argument("--out", default=str(ROOT / "results" / ("runs_fake" if api.BACKEND == "fake" else "runs_v2")))
     p.add_argument("--skip-final", action="store_true", help="stop after the day loop, for short test runs")
     p.add_argument("--day-tokens", type=int, help="smoke tests only: shorten days to about this many tokens, caps scaled to match")
     a = p.parse_args()

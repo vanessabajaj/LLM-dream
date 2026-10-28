@@ -37,6 +37,29 @@ The offline tests need no API key: `pip install -r requirements-dev.txt`, then `
 
 One full run (ten days plus the day-eleven tests) costs about 65 USD at Anthropic list price. `harness/api.py` stops at 100 USD of API spend (`SPEND_CAP_USD`), so raise that before running more than one arm. The original sweep ran Opus through Claude Code on a Max plan (`WP_BACKEND=subscription`, used by `scripts/run_all.sh`), which also needs `scripts/usage.py set <percent>` before it starts. The default backend is the API.
 
+## Running it for free
+
+Nothing below needs an API key or spends money. The data setup above (LongMemEval, the Cao repo, Moby Dick, `rebuild_lives.py`) is free too; skip the `.env` step.
+
+**Offline check (no model at all).** `WP_BACKEND=fake` answers every call with canned replies shaped like the real ones, so the whole pipeline (ten days, every arm, final questions, transfer probes, day-11 battery) runs in seconds. The scores mean nothing; this is for checking that changes don't break the harness. Fake runs go to `results/runs_fake/`, never beside real ones.
+
+```
+WP_BACKEND=fake .venv/bin/python harness/run_arm.py faithful 0
+WP_BACKEND=fake .venv/bin/python harness/run_arm.py structured_20 0 --day-tokens 20000   # short days, caps scaled down
+```
+
+On Windows PowerShell: `$env:WP_BACKEND="fake"; .venv\Scripts\python harness\run_arm.py faithful 0`.
+
+**Real run on your Claude subscription.** `WP_BACKEND=subscription` sends every Opus call through Claude Code (`claude -p`, logged in), which uses your plan's usage instead of money. With no keys in `.env`:
+- the judge is Opus alone (no OpenAI call; set `WP_MAIN_JUDGE` to override), so labels can differ from the paper's gpt-5.6-luna labels;
+- token counts are tiktoken estimates rather than Claude's tokenizer, so day lengths and caps are approximate.
+
+The harness pauses (exit code 3) at a usage budget you set. Run `scripts/usage.py set <percent>` with the percentage `/usage` shows in Claude Code first. Its `WEEKLY_USD` is the original author's Max-plan estimate, so on a smaller plan lower it or keep the budget tight; the harness also pauses when Claude Code reports a usage limit. A full ten-day run used about 65 USD of list-price usage on a Max plan, more than a Pro plan allows in a week, so start with short days:
+
+```
+WP_BACKEND=subscription .venv/bin/python harness/run_arm.py faithful 0 --days 3 --day-tokens 20000 --out results/runs_free
+```
+
 ## Licence
 
 The code is MIT. LongMemEval (Wu et al., 2024) is MIT and is downloaded rather than copied here. `external/longmemeval_evaluate_qa.py` is LongMemEval's grading script, copied unchanged for its prompt templates. The day-eleven battery reads its prompt from Cao, Schooler and Zafarani's repo, which the setup clones. The Letta check adapts `run_stateful_gsm_symbolic.py` from letta-ai/sleep-time-compute (MIT).

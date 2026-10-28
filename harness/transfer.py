@@ -16,7 +16,7 @@ At run time run_arm.py calls inject() to add the episodes to the day's sessions,
 import json, random, pathlib, sys, time, argparse
 from concurrent.futures import ThreadPoolExecutor
 import api
-from judge import judge_opus, judge_openai, MAIN_JUDGE
+from judge import judge_both, MAIN_JUDGE
 from life import EPISODE_RESERVE, DAYS, session_text
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
@@ -120,8 +120,7 @@ def inject(life, seed):
 
 def judge_probe(rule, probe, reply, tag):
     prompt = JUDGE_TMPL.format(rule=rule["rule"], probe=probe["text"], reply=reply, follows_if=probe["follows_if"])
-    main, lab_main = judge_openai(prompt, tag)
-    op, lab_op = judge_opus(prompt, tag)
+    main, lab_main, op, lab_op = judge_both(prompt, tag)
     return {"follows": main, "judge_label": lab_main, "follows_opus": op, "judge_label_opus": lab_op, "judge_main": MAIN_JUDGE}
 
 

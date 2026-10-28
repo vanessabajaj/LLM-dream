@@ -18,6 +18,12 @@ v2 (4 Oct 2026):
 - The spend cap counts real money only: OpenAI calls and calls on the Anthropic API key, since the v2 start.
 - count_tokens() uses Anthropic's free token-counting endpoint (the API key), cached in data/token_cache.sqlite.
 - openai_chat() is the one way to call OpenAI (the luna judge), logged to cost.jsonl like everything else.
+
+Free modes (README, "Running it for free"):
+- WP_BACKEND=fake answers every call offline with canned replies shaped like the real ones. No network, no keys,
+  no cost; for checking that the pipeline runs end to end. Its scores mean nothing.
+- With no ANTHROPIC_API_KEY, count_tokens() estimates with tiktoken instead of the endpoint and skips the cache,
+  so estimates never mix with real Claude counts.
 """
 import json, os, time, uuid, threading, pathlib, subprocess, tempfile, re, hashlib, sqlite3, shutil
 import anthropic
@@ -208,10 +214,25 @@ def _tc_db():
     return db
 
 
+_enc = None
+
+
+def estimate_tokens(text):
+    """tiktoken o200k count, the stand-in for Claude's tokenizer when there is no API key. Not cached."""
+    global _enc
+    if _enc is None:
+        import tiktoken
+        _enc = tiktoken.get_encoding("o200k_base")
+        print("count_tokens: no ANTHROPIC_API_KEY (or fake backend), estimating with tiktoken o200k", flush=True)
+    return len(_enc.encode(text, disallowed_special=()))
+
+
 def count_tokens(text):
     """Claude tokens in `text`, from Anthropic's count_tokens endpoint (free, API key), cached by content hash."""
     if not text:
         return 0
+    if BACKEND == "fake" or not os.environ.get("ANTHROPIC_API_KEY"):
+        return max(1, estimate_tokens(text))
     h = hashlib.sha1(text.encode()).hexdigest()
     db = _tc_db()
     row = db.execute("SELECT n FROM tc WHERE h=?", (h,)).fetchone()
@@ -345,12 +366,55 @@ def _call_subscription(system, messages, *, tag, json_schema=None, timeout=900):
             "stop_reason": body.get("stop_reason"), "model": MODEL, "seconds": dt}
 
 
+# ---- fake backend: offline, free, for pipeline checks only ---------------------------------------
+def _schema_default(s):
+    if "enum" in s:
+        return s["enum"][0]
+    t = s.get("type")
+    if t == "object":
+        return {k: _schema_default(v) for k, v in s.get("properties", {}).items() if k in s.get("required", [])}
+    return {"array": [], "string": "", "integer": 3, "number": 0, "boolean": False}.get(t)
+
+
+def _fake_structured(schema, prompt):
+    props = schema.get("properties", {})
+    if {"add", "update", "merge"} <= props.keys():
+        # sleep step: one item per tenth user turn, so memory grows and the cap logic runs
+        turns = re.findall(r"^User: (.+)$", prompt, re.M)[::10][:40]
+        return {"add": [{"gist": " ".join(t.split()[:12]), "details": " ".join(t.split()[12:52]), "score": 1 + i % 5}
+                        for i, t in enumerate(turns)], "update": [], "merge": []}
+    if "edits" in props:
+        # corruption step: swap the first and last word of every turn it was asked to edit
+        text = dict((int(i), t) for i, t in re.findall(r"^\[(\d+)\] (?:User|Assistant): (.*)$", prompt, re.M))
+        edits = []
+        for i in map(int, re.findall(r"^- index (\d+):", prompt, re.M)):
+            w = text.get(i, "edited").split() or ["edited"]
+            w[0], w[-1] = w[-1], w[0]
+            edits.append({"index": i, "text": " ".join(w)})
+        return {"edits": edits}
+    return _schema_default(schema)
+
+
+def _call_fake(system, messages, *, tag, json_schema=None):
+    prompt = _flatten(messages)
+    text = (json.dumps(_fake_structured(json_schema, prompt)) if json_schema is not None
+            else "I have no record of that in my memory.")
+    call_id = f"fake_{time.strftime('%Y%m%dT%H%M%S')}_{uuid.uuid4().hex[:8]}"
+    usage = {"input_tokens": 0, "output_tokens": len(text.split())}
+    log_cost({"call_id": call_id, "tag": tag, "provider": "anthropic", "backend": "fake", "model": MODEL,
+              "usd": 0.0, "output_tokens": usage["output_tokens"]})
+    return {"text": text, "thinking": "", "usage": usage, "usd": 0.0, "call_id": call_id,
+            "stop_reason": "end_turn", "model": MODEL, "seconds": 0.0}
+
+
 def call(system, messages, *, tag, max_tokens=4000, cache_system=True, json_schema=None, timeout=900):
     """
     One Opus 5.5 call. `tag` is a short label (arm/seed/day/step) written into the log.
     Returns dict: text, thinking, usage, usd, call_id, stop_reason, model, seconds.
     Raises Refusal on stop_reason == refusal, RunAborted on model mismatch or spend cap, UsagePaused on the budget.
     """
+    if BACKEND == "fake":
+        return _call_fake(system, messages, tag=tag, json_schema=json_schema)
     if BACKEND == "subscription":
         return _call_subscription(system, messages, tag=tag, json_schema=json_schema, timeout=timeout)
     check_cap()
@@ -408,6 +472,10 @@ _openai = None
 def openai_chat(model, prompt, *, tag, max_completion_tokens=200):
     """One OpenAI chat call, retried on rate limits, logged to cost.jsonl. Returns (text, raw_response)."""
     global _openai
+    if BACKEND == "fake":
+        log_cost({"call_id": f"fake_{uuid.uuid4().hex[:8]}", "tag": tag, "provider": "openai", "backend": "fake",
+                  "model": model, "usd": 0.0})
+        return "yes", None
     import openai
     if _openai is None:
         _openai = openai.OpenAI()

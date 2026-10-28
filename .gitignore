@@ -14,3 +14,5 @@ results/runs_v2/*/*
 external/LLM_CognitivePsychology/
 cost.jsonl.lock
 .pytest_cache/
+results/runs_fake/
+results/runs_free/

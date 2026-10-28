@@ -15,7 +15,8 @@ _ns = {}
 exec(compile(ast.Module(body=[_fn], type_ignores=[]), "longmemeval_prompt", "exec"), _ns)
 get_anscheck_prompt = _ns["get_anscheck_prompt"]
 
-MAIN_JUDGE = os.environ.get("WP_MAIN_JUDGE", "gpt-5.6-luna")
+# WP_MAIN_JUDGE=opus grades with Opus alone, no OpenAI call (the free setup). Without an OpenAI key that is the default.
+MAIN_JUDGE = os.environ.get("WP_MAIN_JUDGE") or ("gpt-5.6-luna" if os.environ.get("OPENAI_API_KEY") or api.BACKEND == "fake" else "opus")
 SCHEMA = {"type": "object", "properties": {"answer": {"type": "string", "enum": ["yes", "no"]}},
           "required": ["answer"], "additionalProperties": False}
 JUDGE_SYSTEM = "You are grading a model's answer. Follow the instructions in the message exactly and reply with yes or no."
@@ -39,9 +40,17 @@ def judge_openai(prompt, tag, model=MAIN_JUDGE):
     return "yes" in text.lower(), text[:40]
 
 
+def judge_both(prompt, tag):
+    """(main correct, main label, Opus correct, Opus label). With MAIN_JUDGE 'opus' the one Opus label is both."""
+    c_opus, l_opus = judge_opus(prompt, tag)
+    if MAIN_JUDGE == "opus":
+        return c_opus, l_opus, c_opus, l_opus
+    c_main, l_main = judge_openai(prompt, tag)
+    return c_main, l_main, c_opus, l_opus
+
+
 def judge(question_type, question, answer, response, abstention, tag):
     """Returns {correct, judge_label, correct_opus, judge_label_opus, judge_main}. `correct` is the main judge."""
     prompt = get_anscheck_prompt(question_type, question, answer, response, abstention=abstention)
-    c_main, l_main = judge_openai(prompt, tag)
-    c_opus, l_opus = judge_opus(prompt, tag)
+    c_main, l_main, c_opus, l_opus = judge_both(prompt, tag)
     return {"correct": c_main, "judge_label": l_main, "correct_opus": c_opus, "judge_label_opus": l_opus, "judge_main": MAIN_JUDGE}
