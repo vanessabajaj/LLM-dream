@@ -6,7 +6,7 @@
 set -u
 cd "$(dirname "$0")/.."
 export WP_BACKEND=subscription          # Opus through Claude Code on the Max plan; the API key would spend real money
-PY=.venv/bin/python
+PY=${PY:-$([ -x .venv/bin/python ] && echo .venv/bin/python || echo .venv/Scripts/python)}  # override with PY=...; Windows venvs use Scripts/
 OUT=results/runs_v2
 mkdir -p logs/runs_v2
 ARMS=$($PY -c "import sys; sys.path.insert(0,'harness'); import arms; print(' '.join(arms.ARMS))")

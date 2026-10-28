@@ -17,8 +17,10 @@ The paper link goes here once it is on arXiv.
 
 ## Running it
 
+Needs Python 3.12 or newer (numpy 2.5 does not install on 3.11).
+
 ```
-python3 -m venv .venv && .venv/bin/pip install -r requirements.txt huggingface_hub
+python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 .venv/bin/python -c "from huggingface_hub import hf_hub_download as d; d('xiaowu0162/longmemeval-cleaned','longmemeval_s_cleaned.json',repo_type='dataset',local_dir='data/raw')"
 git clone https://github.com/zycao29/LLM_CognitivePsychology external/LLM_CognitivePsychology
 mkdir -p data/corpus && curl -sL -o data/corpus/moby_dick.txt https://www.gutenberg.org/cache/epub/2701/pg2701.txt
@@ -26,6 +28,10 @@ mkdir -p data/corpus && curl -sL -o data/corpus/moby_dick.txt https://www.gutenb
 cp .env.example .env    # then add your keys
 .venv/bin/python harness/run_arm.py faithful 0
 ```
+
+On Windows the harness runs the same way with `py -3.13 -m venv .venv` and `.venv\Scripts\python` in place of `.venv/bin/python`. The sweep runner `scripts/run_all.sh` is a bash script; run it from Git Bash or WSL (it finds the venv's Python either way, or set `PY`).
+
+The offline tests need no API key: `pip install -r requirements-dev.txt`, then `python -m pytest tests`.
 
 `run_arm.py` takes any arm name from `harness/arms.py` and a seed from 0 to 2. Results go to `results/runs_v2/<arm>_s<seed>/`, and `harness/analyze.py` followed by `harness/write_results.py` rebuilds the table.
 
