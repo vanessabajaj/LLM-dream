@@ -34,7 +34,8 @@ def _cao_lists():
     sec = txt[txt.index("32 + 8 + 8 = 48"):]
     sec = sec[:sec.index('"""', sec.index("Analysis"))]
     study = re.findall(r'"(The [a-z]+ is in the [a-z]+\.)"', sec)
-    qs = re.findall(r'"(Is the [a-z]+ in the [a-z]+\?)"', sec)
+    # the section's instructions quote the template "Is the person in the location?"; it is not a question
+    qs = [q for q in re.findall(r'"(Is the [a-z]+ in the [a-z]+\?)"', sec) if q != "Is the person in the location?"]
     return study, qs
 
 
