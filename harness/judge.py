@@ -24,8 +24,8 @@ JUDGE_SYSTEM = "You are grading a model's answer. Follow the instructions in the
 
 def judge_opus(prompt, tag):
     try:
-        r = api.call(JUDGE_SYSTEM, [{"role": "user", "content": prompt}], tag=f"{tag}/judge_opus", max_tokens=2000,
-                     cache_system=False, json_schema=SCHEMA)
+        r = api.call(JUDGE_SYSTEM, [{"role": "user", "content": prompt}], tag=f"{tag}/judge_opus",
+                     max_tokens=api.JUDGE_MAX_TOKENS, cache_system=False, json_schema=SCHEMA)
     except api.Refusal:
         return False, "judge_refusal"
     try:

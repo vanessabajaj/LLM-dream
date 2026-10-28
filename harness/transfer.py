@@ -173,7 +173,7 @@ def empty_memory_check(rule, tag):
         for k in range(CHECK_SAMPLES):
             t = f"{tag}/{kind}{k}"
             try:
-                a = api.call(system, [{"role": "user", "content": p["text"]}], tag=t, max_tokens=3000)
+                a = api.call(system, [{"role": "user", "content": p["text"]}], tag=t, max_tokens=api.ANSWER_MAX_TOKENS)
                 j = judge_probe(rule, p, a["text"], t)
                 samples.append({"kind": kind, "reply": a["text"], "call_id": a["call_id"], **j})
             except api.Refusal as e:

@@ -46,7 +46,10 @@ PRICE = {"input": 4.00, "output": 20.00, "cache_read": 0.20, "cache_write": 5.00
 # gpt-5.6-luna's price is not published where the harness can read it; logged at gpt-4o list price as a
 # conservative placeholder and flagged in every record (decisions.md).
 OPENAI_PRICE = {"gpt-4o-2024-08-06": (2.50, 10.00), "gpt-4o-mini": (0.15, 0.60), "gpt-5.6-luna": (2.50, 10.00)}
-MAX_OUTPUT_TOKENS = 64000       # ceiling for claude -p output; a sleep night writes about 20,000
+MAX_OUTPUT_TOKENS = 64000       # ceiling for both backends; a sleep night writes about 20,000-30,000
+ANSWER_MAX_TOKENS = 16000       # answers include adaptive thinking; 3,000 was too tight on the API path
+CORRUPT_MAX_TOKENS = 32000      # a 25,000-token batch can return a long JSON edit list
+JUDGE_MAX_TOKENS = 4000         # judge replies include thinking, though the JSON itself is tiny
 
 _lock = threading.Lock()
 _cost_lock = FileLock(str(COST_FILE) + ".lock")  # across processes; works on Windows, unlike fcntl
@@ -265,8 +268,15 @@ def _flatten(messages):
 
 
 def _parse_json(text):
-    m = re.search(r"\{.*\}", text, re.S)
-    return json.loads(m.group(0) if m else text)
+    dec = json.JSONDecoder()
+    for i, ch in enumerate(text):
+        if ch not in "{[":
+            continue
+        try:
+            return dec.raw_decode(text[i:])[0]
+        except json.JSONDecodeError:
+            continue
+    return json.loads(text)
 
 
 def _sub_once(system, prompt, json_schema, timeout, tag=""):
@@ -290,8 +300,19 @@ def _sub_loop(cmd, prompt, timeout, tag=""):
     env["CLAUDE_CODE_NO_MODEL_FALLBACK"] = "1"  # a refusal comes back as a refusal, never as another model's answer
     for attempt in range(5):
         t0 = time.time()
-        p = subprocess.run(cmd, input=prompt, capture_output=True, text=True, encoding="utf-8", errors="replace",
-                           env=env, cwd=_SUB_DIR, timeout=timeout)
+        try:
+            p = subprocess.run(cmd, input=prompt, capture_output=True, text=True, encoding="utf-8", errors="replace",
+                               env=env, cwd=_SUB_DIR, timeout=timeout)
+        except FileNotFoundError:
+            raise RunAborted(f"claude CLI not found for tag {tag}; install Claude Code or use WP_BACKEND=api")
+        except subprocess.TimeoutExpired as e:
+            dt = time.time() - t0
+            tail = e.stderr.decode("utf-8", "replace") if isinstance(e.stderr, bytes) else (e.stderr or "")  # bytes despite text=True
+            err = f"claude -p timed out after {timeout}s ({dt:.0f}s): {tail[-300:]}"
+            if attempt == 4:
+                raise RunAborted(err)
+            print(f"[{tag}] {err}, retrying", flush=True)
+            time.sleep(30 * (attempt + 1)); continue
         dt = time.time() - t0
         try:
             body = json.loads(p.stdout)
@@ -348,6 +369,9 @@ def _call_subscription(system, messages, *, tag, json_schema=None, timeout=900):
         rec["error"] = "REFUSAL"; log_cost(rec)
         m = re.search(r"Details:\s*`?\[([a-z_, ]+)\]", text)
         raise Refusal(call_id, m.group(1) if m else "refusal", text[:300])
+    if body.get("stop_reason") == "max_tokens":
+        rec["error"] = "MAX_TOKENS"; log_cost(rec)
+        raise RunAborted(f"output hit max_tokens in {tag} (call {call_id}); raise the caller's max_tokens")
     if json_schema is not None:
         so = body.get("structured_output")
         if so is None:
@@ -407,7 +431,7 @@ def _call_fake(system, messages, *, tag, json_schema=None):
             "stop_reason": "end_turn", "model": MODEL, "seconds": 0.0}
 
 
-def call(system, messages, *, tag, max_tokens=4000, cache_system=True, json_schema=None, timeout=900):
+def call(system, messages, *, tag, max_tokens=ANSWER_MAX_TOKENS, cache_system=True, json_schema=None, timeout=900):
     """
     One Opus 5.5 call. `tag` is a short label (arm/seed/day/step) written into the log.
     Returns dict: text, thinking, usage, usd, call_id, stop_reason, model, seconds.
@@ -433,7 +457,7 @@ def call(system, messages, *, tag, max_tokens=4000, cache_system=True, json_sche
     if json_schema is not None:
         req["output_config"]["format"] = {"type": "json_schema", "schema": json_schema}
     t0 = time.time()
-    resp = _client.messages.create(**req)
+    resp = _client.messages.create(**req, timeout=timeout)  # the caller's timeout, not the client's 600 s default
     dt = time.time() - t0
     body = resp.model_dump()
 
@@ -460,6 +484,9 @@ def call(system, messages, *, tag, max_tokens=4000, cache_system=True, json_sche
         rec["refusal"] = {"category": sd.get("category"), "explanation": sd.get("explanation")}
         log_cost(rec)
         raise Refusal(call_id, sd.get("category"), sd.get("explanation"))
+    if body["stop_reason"] == "max_tokens":
+        rec["error"] = "MAX_TOKENS"; log_cost(rec)
+        raise RunAborted(f"output hit max_tokens={max_tokens} in {tag} (call {call_id}); raise the caller's max_tokens")
     log_cost(rec)
     return {"text": text, "thinking": thinking, "usage": usage, "usd": usd, "call_id": call_id,
             "stop_reason": body["stop_reason"], "model": body["model"], "seconds": dt}

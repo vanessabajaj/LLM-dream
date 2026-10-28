@@ -40,3 +40,35 @@ def test_log_cost_appends_jsonl_and_tallies(offline):
     lines = (offline / "cost.jsonl").read_text(encoding="utf-8").splitlines()
     assert [json.loads(l)["usd"] for l in lines] == [0.5, 0.25]
     assert api.real_spend_v2() == pytest.approx(0.75)
+
+
+def test_parse_json_ignores_braces_outside_the_object():
+    assert api._parse_json('Here: {"a": {"b": 1}} and trailing } text') == {"a": {"b": 1}}
+    assert api._parse_json('[{"a": 1}]') == [{"a": 1}]
+
+
+def test_api_max_tokens_aborts_and_logs(monkeypatch, offline):
+    class Response:
+        def __init__(self, body): self.body = body
+        def model_dump(self): return self.body
+
+    class Client:
+        def __init__(self, body):
+            self.messages = self
+        def create(self, **req):
+            return Response({"model": api.MODEL, "content": [{"type": "text", "text": "cut"}],
+                             "usage": {"input_tokens": 1, "output_tokens": 1}, "stop_reason": "max_tokens"})
+
+    monkeypatch.setattr(api, "BACKEND", "api")
+    monkeypatch.setattr(api, "_client", Client(None))
+    monkeypatch.setattr(api, "check_cap", lambda: 0)
+    with pytest.raises(api.RunAborted, match="max_tokens"):
+        api.call("sys", [{"role": "user", "content": "q"}], tag="t", max_tokens=10)
+    assert json.loads((offline / "cost.jsonl").read_text(encoding="utf-8"))["error"] == "MAX_TOKENS"
+
+
+def test_subscription_max_tokens_aborts(monkeypatch, offline):
+    fake_reply(monkeypatch, {"stop_reason": "max_tokens", "result": "cut", "usage": {}, "modelUsage": {api.MODEL: {}}})
+    with pytest.raises(api.RunAborted, match="max_tokens"):
+        api._call_subscription("sys", [{"role": "user", "content": "q"}], tag="t")
+    assert json.loads((offline / "cost.jsonl").read_text(encoding="utf-8"))["error"] == "MAX_TOKENS"

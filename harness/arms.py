@@ -93,7 +93,8 @@ def sleep_items(mem, log_text, tag, cap, night):
     system = SLEEP_SYSTEM.format(cap=cap, before=before, room_words=int(room * 0.75))  # about 0.75 English words per token
     user = (f"EXISTING MEMORY ({len(items)} items, {before} tokens):\n{memory.render_for_sleep(items) or '(empty)'}\n\n"
             f"TODAY'S TRANSCRIPT:\n{log_text}\n\nReturn the JSON with your changes.")
-    r = api.call(system, [{"role": "user", "content": user}], tag=f"{tag}/sleep", json_schema=SLEEP_SCHEMA, timeout=3600)
+    r = api.call(system, [{"role": "user", "content": user}], tag=f"{tag}/sleep", max_tokens=api.MAX_OUTPUT_TOKENS,
+                 json_schema=SLEEP_SCHEMA, timeout=3600)
     delta = json.loads(r["text"])
     items, next_id, drep = memory.apply_delta(items, delta, night, mem["next_id"])
     items, crep = memory.enforce_cap(items, cap)
@@ -176,7 +177,8 @@ def corrupt_structured(sessions, archive, rng, tag, rate):
         numbered = "\n".join(f"[{i}] {'User' if turns[i]['role']=='user' else 'Assistant'}: {turns[i]['content']}" for i in b_idx)
         edit_list = "\n".join(f"- index {i}: {kind}" for i, kind in sorted(edits_here.items()))
         user = f"TRANSCRIPT:\n{numbered}\n\nEDITS TO MAKE:\n{edit_list}\n\nReturn the JSON."
-        r = api.call(CORRUPT_SYSTEM, [{"role": "user", "content": user}], tag=f"{tag}/corrupt", json_schema=CORRUPT_SCHEMA, timeout=3600)
+        r = api.call(CORRUPT_SYSTEM, [{"role": "user", "content": user}], tag=f"{tag}/corrupt",
+                     max_tokens=api.CORRUPT_MAX_TOKENS, json_schema=CORRUPT_SCHEMA, timeout=3600)
         edits = {}
         try:
             edits = {int(e["index"]): e["text"] for e in json.loads(r["text"])["edits"]}
