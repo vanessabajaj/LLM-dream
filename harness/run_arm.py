@@ -23,8 +23,14 @@ THREADS = 3
 
 
 class Run:
-    def __init__(self, arm, seed, days, out, skip_final=False, day_tokens=None):
+    def __init__(self, arm, seed, days, out, skip_final=False, day_tokens=None, skip_battery=False, skip_transfer=False):
         self.arm, self.seed, self.skip_final = arm, seed, skip_final
+        self.skip_battery, self.skip_transfer = skip_battery, skip_transfer
+        self.dir = pathlib.Path(out) / f"{arm}_s{seed}"
+        self.state_path = self.dir / "state.json"
+        if (self.dir / "summary.json").exists() and not self.state_path.exists():
+            # a committed result from the original sweep; starting a new run here would mix it into the published table
+            raise SystemExit(f"{self.dir} holds a published summary.json without its state.json; pass --out for a new run")
         self.life = json.load(open(ROOT / "data" / "lives_v2" / f"life_s{seed}.json", encoding="utf-8"))
         self.days = min(days, self.life["days"])
         self.scale = 1.0
@@ -39,9 +45,7 @@ class Run:
                 d["sessions"] = kept
         # transfer-test episodes go into each day's 4,000-token reserve, at fixed positions per seed (transfer.py)
         self.n_transfer_episodes = transfer.inject(self.life, seed)
-        self.dir = pathlib.Path(out) / f"{arm}_s{seed}"
         self.dir.mkdir(parents=True, exist_ok=True)
-        self.state_path = self.dir / "state.json"
         if self.state_path.exists():
             self.state = json.load(open(self.state_path, encoding="utf-8"))
         else:
@@ -83,7 +87,7 @@ class Run:
         today = TODAY_TMPL.format(log=today_log) if today_log else ""
         system = AGENT_SYSTEM.format(memory=memory_text or "(empty)", today=today)
         try:
-            r = api.call(system, [{"role": "user", "content": question}], tag=tag, max_tokens=3000)
+            r = api.call(system, [{"role": "user", "content": question}], tag=tag, max_tokens=api.ANSWER_MAX_TOKENS)
             return {"response": r["text"], "thinking": r["thinking"], "call_id": r["call_id"], "refusal": None,
                     "seconds": round(r["seconds"], 1)}
         except api.Refusal as e:
@@ -134,6 +138,10 @@ class Run:
 
     # ---- the loop -----------------------------------------------------------------------------
     def run(self):
+        if self.state.get("arm") != self.arm or self.state.get("seed") != self.seed:
+            raise api.RunAborted(f"state belongs to {self.state.get('arm')}/s{self.state.get('seed')}, not {self.tag}")
+        if self.state.get("backend") not in (None, api.BACKEND):
+            raise api.RunAborted(f"state was started on backend {self.state.get('backend')}, now {api.BACKEND}; use a fresh --out")
         qs = self.life["questions"]
         for day in range(self.days):
             sessions = self.sessions_of(day)
@@ -165,8 +173,14 @@ class Run:
             rows = self.ask_many(qs, self.memory_text(), "", "final", self.days)
             self.mark("final", t0)
             print(f"[{self.tag}] final: {sum(r['correct'] for r in rows)}/{len(rows)} list-price spend {api.total_spend():.2f}", flush=True)
-        self.transfer_probes()
-        self.battery_day()
+        # a skipped part stays visible in the state, so a short run is never read as a complete one
+        skipped = set(self.state.get("skipped", [])) | {p for p, s in (("transfer", self.skip_transfer), ("battery", self.skip_battery)) if s}
+        if skipped:
+            self.state["skipped"] = sorted(skipped)
+        if not self.skip_transfer:
+            self.transfer_probes()
+        if not self.skip_battery:
+            self.battery_day()
         self.state["finished"] = time.time()
         self.mark("all")
 
@@ -216,15 +230,17 @@ if __name__ == "__main__":
     p.add_argument("--days", type=int, default=10)
     p.add_argument("--out", default=str(ROOT / "results" / ("runs_fake" if api.BACKEND == "fake" else "runs_v2")))
     p.add_argument("--skip-final", action="store_true", help="stop after the day loop, for short test runs")
+    p.add_argument("--skip-battery", action="store_true", help="skip the day-11 battery")
+    p.add_argument("--skip-transfer", action="store_true", help="skip the transfer probes")
     p.add_argument("--day-tokens", type=int, help="smoke tests only: shorten days to about this many tokens, caps scaled to match")
     a = p.parse_args()
-    run = Run(a.arm, a.seed, a.days, a.out, a.skip_final, a.day_tokens)
+    run = Run(a.arm, a.seed, a.days, a.out, a.skip_final, a.day_tokens, a.skip_battery, a.skip_transfer)
     try:
         run.run()
     except api.UsagePaused as e:
         run.save()
         print("PAUSED:", e, flush=True); sys.exit(3)
-    except api.RunAborted as e:
+    except (api.RunAborted, api.Refusal) as e:
         run.save()
         (ROOT / "BLOCKED.md").write_text(f"# Run aborted\n\n{run.tag}: {e}\n\nTime: {time.ctime()}\n", encoding="utf-8")
         print("ABORTED:", e, flush=True); sys.exit(2)
